@@ -1,0 +1,73 @@
+﻿<Window x:Class="iRacing_Quick_Release.Views.Overlays.WindDirectionCompassView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:iRacing_Quick_Release.Views.Overlays"
+        mc:Ignorable="d"
+        Title="WindDirectionCompassView"
+        Height="280"
+        Width="280"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Grid>
+        <!-- Encapsulate in Viewbox for scaling -->
+        <Viewbox Stretch="Uniform">
+            <Grid Width="300" Height="300">
+                <!-- Rotating Compass -->
+                <Canvas Width="300" Height="300">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="{Binding PlayerCarYawFromNorth}" CenterX="150" CenterY="150" />
+                    </Canvas.RenderTransform>
+
+                    <!-- Compass Circle -->
+                    <Ellipse Width="280" Height="280" Canvas.Left="10" Canvas.Top="10" Stroke="Black" StrokeThickness="4" Fill="Black" Opacity="0.5"/>
+                    <Ellipse Width="280" Height="280" Canvas.Left="10" Canvas.Top="10" Stroke="DimGray" StrokeThickness="3"/>
+                    <!-- North -->
+                    <TextBlock Text="N" Foreground="Red" FontSize="26" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="125,15,0,0"/>
+                    <Line X1="150" Y1="15" X2="150" Y2="45" Stroke="Red" StrokeThickness="3"/>
+                    <Line X1="217" Y1="32" X2="210" Y2="45" Stroke="Gray" StrokeThickness="2"/>
+                    <Line X1="268" Y1="83" X2="255" Y2="93" Stroke="Gray" StrokeThickness="2"/>
+
+                    <!-- East -->
+                    <Line X1="285" Y1="150" X2="255" Y2="150" Stroke="Gray" StrokeThickness="3"/>
+                    <Line X1="268" Y1="217" X2="255" Y2="207" Stroke="Gray" StrokeThickness="2"/>
+                    <Line X1="217" Y1="268" X2="210" Y2="255" Stroke="Gray" StrokeThickness="2"/>
+
+                    <!-- South -->
+                    <Line X1="150" Y1="285" X2="150" Y2="255" Stroke="Gray" StrokeThickness="3"/>
+                    <Line X1="83" Y1="268" X2="90" Y2="255" Stroke="Gray" StrokeThickness="2"/>
+                    <Line X1="32" Y1="217" X2="45" Y2="207" Stroke="Gray" StrokeThickness="2"/>
+
+                    <!-- West -->
+                    <Line X1="15" Y1="150" X2="45" Y2="150" Stroke="Gray" StrokeThickness="3"/>
+                    <Line X1="32" Y1="83" X2="45" Y2="93" Stroke="Gray" StrokeThickness="2"/>
+                    <Line X1="83" Y1="32" X2="90" Y2="45" Stroke="Gray" StrokeThickness="2"/>
+                    
+                </Canvas>
+                <!-- Wind Direction Indicator -->
+                <Canvas Width="300" Height="300">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="{Binding WindDirection}" CenterX="150" CenterY="150" />
+                    </Canvas.RenderTransform>
+                    <Polygon Points="150,40 165,12 150,11 135,12" Stroke="Black" Fill="Yellow" StrokeThickness="2"/>
+                </Canvas>
+
+                <!-- Temperature display -->
+                <TextBlock Text="Track:" FontSize="20" FontWeight="Bold" Foreground="FloralWhite" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,70,90,0"/>
+                <TextBlock Text="{Binding TrackTemperatureString}" FontSize="24" FontWeight="Bold" Foreground="FloralWhite" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,90,0"/>
+                <TextBlock Text="Air:" FontSize="20" FontWeight="Bold" Foreground="FloralWhite" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="90,70,0,0"/>
+                <TextBlock Text="{Binding AirTemperatureString}" FontSize="24" FontWeight="Bold" Foreground="FloralWhite" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="90,90,0,0"/>
+
+
+                <!-- Wind speed display -->
+                <!--<Image Source="pack://application:,,,/Resources/Images/Wind.png" Stretch="Uniform" Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,170,0"/> -->
+                <!--<TextBlock Text="{Binding WindSpeedString}" FontSize="28" FontWeight="Bold" Foreground="FloralWhite" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100, 0, 0, 0"/> -->
+                <TextBlock Text="Wind speed:" FontSize="24" FontWeight="Bold" Foreground="FloralWhite" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                <TextBlock Text="{Binding WindSpeedString}" FontSize="28" FontWeight="Bold" Foreground="FloralWhite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 60, 0, 0"/>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Window>

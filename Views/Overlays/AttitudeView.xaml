@@ -1,0 +1,217 @@
+﻿<Window x:Class="iRacing_Quick_Release.Views.Overlays.AttitudeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:iRacing_Quick_Release.Views.Overlays"
+        Title="Attitude"
+        Width="260"
+        Height="260"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Grid>
+        <!-- Encapsulate in Viewbox for ease of scaling -->
+        <Viewbox Stretch="Uniform">
+            <!-- Circular mask -->
+            <Grid Width="240" Height="240" Clip="M120,0 A120,120 0 1 1 119.9,0 Z">
+                <!-- Roll translate -->
+                <Grid RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <RotateTransform Angle="{Binding Roll}"/>
+                    </Grid.RenderTransform>
+
+                    <!-- Pitch translate -->
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TranslateTransform Y="{Binding PitchScaled}"/>
+                        </Grid.RenderTransform>
+
+                        <!-- Sky and ground-->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Rectangle Grid.Row="0" Fill="DodgerBlue"/>
+                            <Rectangle Grid.Row="1" Fill="#363130"/>
+                        </Grid>
+
+                        <!-- Pitch ladder -->
+                        <Canvas>
+                            <ItemsControl ItemsSource="{Binding}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.Resources>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
+                                </ItemsControl.Resources>
+                            </ItemsControl>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <!-- Center the ladder so Y=0 -->
+                                    <TranslateTransform Y="120"/>
+                                </Canvas.RenderTransform>
+                                <!-- 40 deg -->
+                                <Line X1="90" X2="150" Y1="-160" Y2="-160" Stroke="White" StrokeThickness="2"/>
+                                <!-- -35 deg -->
+                                <Line X1="110" X2="130" Y1="-140" Y2="-140" Stroke="White" StrokeThickness="1"/>
+                                <!-- -30 deg -->
+                                <Line X1="90" X2="150" Y1="-120" Y2="-120" Stroke="White" StrokeThickness="1"/>
+                                <!-- -25 deg -->
+                                <Line X1="110" X2="130" Y1="-100" Y2="-100" Stroke="White" StrokeThickness="1"/>
+                                <!-- -20 deg -->
+                                <Line X1="90" X2="150" Y1="-80" Y2="-80" Stroke="White" StrokeThickness="1"/>
+                                <!-- -15 deg -->
+                                <Line X1="110" X2="130" Y1="-60" Y2="-60" Stroke="White" StrokeThickness="1"/>
+                                <!-- -10 deg -->
+                                <Line X1="90" X2="150" Y1="-40" Y2="-40" Stroke="White" StrokeThickness="1"/>
+                                <!-- -5 deg -->
+                                <Line X1="110" X2="130" Y1="-20" Y2="-20" Stroke="White" StrokeThickness="1"/>
+                                <!-- 0 deg -->
+                                <Line X1="0" X2="260" Y1="0"  Y2="0"  Stroke="White" StrokeThickness="1"/>
+                                <!-- 5 deg -->
+                                <Line X1="110" X2="130" Y1="20" Y2="20" Stroke="White" StrokeThickness="1"/>
+                                <!-- 10 deg -->
+                                <Line X1="90" X2="150" Y1="40"  Y2="40"  Stroke="White" StrokeThickness="2"/>
+                                <!-- 15 deg -->
+                                <Line X1="110" X2="130" Y1="60" Y2="60" Stroke="White" StrokeThickness="2"/>
+                                <!-- 20 deg -->
+                                <Line X1="90" X2="150" Y1="80" Y2="80" Stroke="White" StrokeThickness="2"/>
+                                <!-- 25 deg -->
+                                <Line X1="110" X2="130" Y1="100" Y2="100" Stroke="White" StrokeThickness="2"/>
+                                <!-- 30 deg -->
+                                <Line X1="90" X2="150" Y1="120" Y2="120" Stroke="White" StrokeThickness="2"/>
+                                <!-- -35 deg -->
+                                <Line X1="110" X2="130" Y1="140" Y2="140" Stroke="White" StrokeThickness="1"/>
+                                <!-- 40 deg -->
+                                <Line X1="90" X2="150" Y1="160" Y2="160" Stroke="White" StrokeThickness="2"/>
+
+                                <!-- Pitch degree labels -->
+                                <TextBlock Text="30"  Foreground="White" FontSize="14" Canvas.Left="175" Canvas.Top="-130"/>
+                                <TextBlock Text="20" Foreground="White" FontSize="14" Canvas.Left="175" Canvas.Top="-90"/>
+                                <TextBlock Text="10" Foreground="White" FontSize="14" Canvas.Left="175" Canvas.Top="-50"/>
+                                <TextBlock Text="-10" Foreground="White" FontSize="14" Canvas.Left="175" Canvas.Top="30"/>
+                                <TextBlock Text="-20" Foreground="White" FontSize="14" Canvas.Left="175" Canvas.Top="70"/>
+                                <TextBlock Text="-30" Foreground="White" FontSize="14" Canvas.Left="175" Canvas.Top="110"/>
+                            </Canvas>
+                        </Canvas>
+                    </Grid>
+
+                    <!-- Vehicle marker -->
+                    <Canvas IsHitTestVisible="False">
+                        <Path Stroke="Yellow" StrokeThickness="2">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="105,120">
+                                        <PathFigure.Segments>
+                                            <ArcSegment Size="5,5"
+                                                        Point="135, 120"
+                                                        IsLargeArc="True"
+                                                        SweepDirection="Counterclockwise" />
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                    <!--Left wing-->
+                                    <PathFigure StartPoint="80,120">
+                                        <PathFigure.Segments>
+                                            <LineSegment Point="105,120"/>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                    <!--Right wing-->
+                                    <PathFigure StartPoint="135,120">
+                                        <PathFigure.Segments>
+                                            <LineSegment Point="160,120"/>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                    <!--Bottom wing?-->
+                                    <PathFigure StartPoint="120,135">
+                                        <PathFigure.Segments>
+                                            <LineSegment Point="120,150"/>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                    <!--Center dot-->
+                                    <PathFigure StartPoint="120,120">
+                                        <PathFigure.Segments>
+                                            <LineSegment Point="120,123"/>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Canvas>
+                    <!-- Top degree indicator -->
+                    <Canvas>
+                        <!-- Top  left   right -->
+                        <Polygon Points="120,15 113,35 127,35" Fill="Yellow" Stroke="Black" StrokeThickness="1"/>
+                    </Canvas>
+                </Grid>
+
+                <!-- Border -->
+                <Canvas IsHitTestVisible="False">
+                    <!-- Roll ticks -->
+                    <!--0 degrees (Level upper tick)-->
+                    <Line X1="120" Y1="0" X2="120" Y2="12" Stroke="White" StrokeThickness="2"/>
+
+                    <!-- -5 degrees-->
+                    <Line X1="110" Y1="0" X2="111" Y2="10" Stroke="White" StrokeThickness="2"/>
+                    <!-- 5 degrees-->
+                    <Line X1="130" Y1="0" X2="129" Y2="10" Stroke="White" StrokeThickness="2"/>
+
+                    <!-- -10 degrees-->
+                    <Line X1="99" Y1="0" X2="102" Y2="15" Stroke="White" StrokeThickness="2"/>
+                    <!-- 10 degrees-->
+                    <Line X1="141" Y1="0" X2="138" Y2="15" Stroke="White" StrokeThickness="2"/>
+
+                    <!-- -15 degrees-->
+                    <Line X1="88" Y1="0" X2="91" Y2="13" Stroke="White" StrokeThickness="2"/>
+                    <!-- 15 degrees-->
+                    <Line X1="152" Y1="0" X2="149" Y2="13" Stroke="White" StrokeThickness="2"/>
+
+                    <!-- -20 degrees-->
+                    <Line X1="76" Y1="0" X2="83" Y2="20" Stroke="White" StrokeThickness="2"/>
+                    <!-- 20 degrees-->
+                    <Line X1="164" Y1="0" X2="157" Y2="20" Stroke="White" StrokeThickness="2"/>
+
+                    <!-- -25 degrees-->
+                    <Line X1="63" Y1="0" X2="73" Y2="20" Stroke="White" StrokeThickness="2"/>
+                    <!-- 25 degrees-->
+                    <Line X1="177" Y1="0" X2="167" Y2="20" Stroke="White" StrokeThickness="2"/>
+
+                    <!-- -30 degrees-->
+                    <Line X1="52" Y1="0" X2="67" Y2="27" Stroke="White" StrokeThickness="2"/>
+                    <!-- 30 degrees-->
+                    <Line X1="188" Y1="0" X2="173" Y2="27" Stroke="White" StrokeThickness="2"/>
+                    
+                    <!-- Level -->
+                    <!--Right car level tick-->
+                    <Line X1="220" Y1="120" X2="240" Y2="120" Stroke="White" StrokeThickness="3"/>
+                    <!--Left car level tick-->
+                    <Line X1="0"  Y1="120" X2="20"  Y2="120" Stroke="White" StrokeThickness="3"/>
+                    
+                    <!-- 5 degrees left -->
+                    <!--<Line X1="230" Y1="110" X2="240" Y2="110" Stroke="White" StrokeThickness="2"/>-->
+                    <!--Right car level tick-->
+                    <!--<Line X1="0"  Y1="130" X2="10"  Y2="130" Stroke="White" StrokeThickness="2"/>-->
+                    <!--Left car level tick-->
+                    <!-- 5 degrees right -->
+                    <!--<Line X1="230" Y1="130" X2="240" Y2="130" Stroke="White" StrokeThickness="2"/>-->
+                    <!--Right car level tick-->
+                    <!--<Line X1="0"  Y1="110" X2="10"  Y2="110" Stroke="White" StrokeThickness="2"/>-->
+                    <!--Left car level tick-->
+                    <Ellipse Width="240" Height="240" Stroke="Black" StrokeThickness="4"/>
+                    <Ellipse Width="240" Height="240" Stroke="DimGray" StrokeThickness="3"/>
+                </Canvas>
+            </Grid>
+        </Viewbox>
+
+        <!-- Used for calibration purposes -->
+        <!-- Roll -->
+        <!-- <TextBlock Text="{Binding StringRoll, StringFormat=N2}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4" FontSize="12" FontWeight="Bold"/> -->
+        <!-- Pitch -->
+        <!-- <TextBlock Text="{Binding StringPitch, StringFormat=N2}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" FontSize="12" FontWeight="Bold" /> -->
+    </Grid>
+</Window>
