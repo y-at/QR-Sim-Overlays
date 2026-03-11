@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QRO.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,21 +21,44 @@ namespace QRO.Views
     /// </summary>
     public partial class SidebarMainView : UserControl
     {
+        #region Fields
+
+        private SidebarMainViewModel? _viewModel => DataContext as SidebarMainViewModel;
+
+        #endregion
+
+        #region
+
         public SidebarMainView()
         {
             InitializeComponent();
         }
+
+        #endregion
+
+        private void OverlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.OnOverlayTabSelected();
+        }
+
+        private void ControlsPresetsButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.OnControlsPresetsTabSelected();
+        }
+
+        private void GraphicsPresetsButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.OnGraphicsPresetsTabSelected();
+        }
+
+        private void RaceEngineerButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.OnRaceEngineerTabSelected();
+        }
+
         private void GitHubButton_Click(object sender, RoutedEventArgs e)
         {
-            // Still unsure if I want to do open source for this project, link to github landing page for now
-            try
-            {
-                System.Diagnostics.Process.Start("https://github.com");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Unable to open GitHub link: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            _viewModel.OnGithubButtonPress();
         }
     }
 }

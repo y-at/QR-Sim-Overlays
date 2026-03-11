@@ -24,32 +24,43 @@
                 </Style>
             </Grid.Style>
 
-
             <!-- Navigation Buttons -->
             <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="5">
-                <Button Content="Overlays" ToolTip="Overlays" Padding="5" Height="50" Background="CadetBlue" Foreground="White" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand"/>
+                <Button Content="Overlays" Click="OverlayButton_Click" ToolTip="Overlays" Padding="5" Height="50" Background="CadetBlue" Foreground="White" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand"/>
 
-                <Button Content="Controls presets" ToolTip="(Coming Soon)" Margin="0,5" Padding="5" Height="50" Background="DimGray" Foreground="DarkGray" BorderThickness="0" IsEnabled="False" Cursor="No"/>
+                <Button Content="Controls presets" Click="ControlsPresetsButton_Click"  Margin="0,5" Padding="5" Height="50" Background="DimGray" Foreground="DarkGray" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand"/>
 
-                <Button Content="Graphics presets" ToolTip="(Coming Soon)" Margin="0,5" Padding="5" Height="50" Background="DimGray" Foreground="DarkGray" BorderThickness="0" IsEnabled="False" Cursor="No"/>
+                <Button Content="Graphics presets" Click="GraphicsPresetsButton_Click"  Margin="0,5" Padding="5" Height="50" Background="DimGray" Foreground="DarkGray" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand"/>
 
-                <Button Content="Race engineer" ToolTip="(Coming Soon, basically a chatgpt wrapper fed context to give car setup change suggestions)" Margin="0,5" Padding="5" Height="50" Background="DimGray" Foreground="DarkGray" BorderThickness="0" IsEnabled="False" Cursor="No"/>
+                <Button Content="Race engineer" Click="RaceEngineerButton_Click" Margin="0,5" Padding="5" Height="50" Background="DimGray" Foreground="DarkGray" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand" />
             </StackPanel>
 
             <!-- GitHub Button -->
-            <Button Grid.Row="1" ToolTip="Visit GitHub Repository" Margin="5" BorderThickness="0" Cursor="Hand" Click="GitHubButton_Click">
-                <!--<Image Source="/Resources/Images/GitHub_Dark.png" /> -->
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="#1a2129"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#3E3E3E"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Grid Grid.Row="1" Margin="5">
+                <Border x:Name="BackgroundBorder" Background="#1a2129" CornerRadius="12"/>
+                <Button ToolTip="Visit GitHub Repository" BorderThickness="0" Cursor="Hand" Click="GitHubButton_Click" Height="50">
+                    <Image Source="/Resources/Images/GitHub_Dark.png" Margin="6" />
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Border x:Name="BackgroundBorder" Background="#1a2129" CornerRadius="4"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="BackgroundBorder" Property="Background" Value="#3E3E3E"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="BackgroundBorder" Property="Background" Value="#2b2b2b"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="BackgroundBorder" Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

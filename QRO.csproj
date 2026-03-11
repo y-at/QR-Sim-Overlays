@@ -5,8 +5,18 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\Images\GitHub.png" />
+    <None Remove="Resources\Images\GitHub_Dark.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="IRSDKSharper" Version="1.1.4" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.2.0" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\GitHub.png" />
+    <Resource Include="Resources\Images\GitHub_Dark.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>

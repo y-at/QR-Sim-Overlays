@@ -1,10 +1,13 @@
-﻿using System;
+﻿using iRacing_Quick_Release.Services;
+using iRacing_Quick_Release.ViewModels;
+using Prism.Regions;
+using QRO.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using iRacing_Quick_Release.Services;
-using iRacing_Quick_Release.ViewModels;
+using System.Windows;
 
 namespace QRO.ViewModels
 {
@@ -13,6 +16,7 @@ namespace QRO.ViewModels
         #region Fields
 
         private readonly ITelemetryServiceManager _telemetryServiceManager;
+        private IRegionManager _regionManager;
 
         private bool _isConnected;
 
@@ -20,9 +24,10 @@ namespace QRO.ViewModels
 
         #region Constructors
 
-        SidebarMainViewModel(ITelemetryServiceManager TelemetryServiceManager)
+        SidebarMainViewModel(ITelemetryServiceManager TelemetryServiceManager, IRegionManager regionManager)
         {
             _telemetryServiceManager = TelemetryServiceManager;
+            _regionManager = regionManager;
 
             _telemetryServiceManager.Connected += OnTelemetryConnected;
             _telemetryServiceManager.Disconnected += OnTelemetryDisconnected;
@@ -46,6 +51,43 @@ namespace QRO.ViewModels
         #endregion
 
         #region Public Methods
+
+        public void OnOverlayTabSelected()
+        {
+            _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(OverlaySelectorView));
+        }
+
+        public void OnControlsPresetsTabSelected()
+        {
+            _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(ControlPresetSelectView));
+        }
+
+        public void OnGraphicsPresetsTabSelected()
+        {
+            _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(GraphicsPresetSelectView));
+        }
+
+        public void OnRaceEngineerTabSelected()
+        {
+            _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(RaceEngineerChatView));
+        }
+
+        public void OnGithubButtonPress()
+        {
+            try
+            {
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "https://github.com/",
+                    UseShellExecute = true
+                };
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to open GitHub link: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         #endregion
 

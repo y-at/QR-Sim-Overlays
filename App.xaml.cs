@@ -27,6 +27,9 @@ namespace QRO
             // Register views for navigation
             containerRegistry.RegisterForNavigation<SidebarMainView, SidebarMainViewModel>();
             containerRegistry.RegisterForNavigation<OverlaySelectorView, OverlaySelectorViewModel>();
+            containerRegistry.RegisterForNavigation<ControlPresetSelectView, ControlPresetSelectViewModel>();
+            containerRegistry.RegisterForNavigation<GraphicsPresetSelectView, GraphicsPresetSelectViewModel>();
+            containerRegistry.RegisterForNavigation<RaceEngineerChatView, RaceEngineerChatView>();
             containerRegistry.RegisterForNavigation<InputTraces, InputTracesViewModel>();
             containerRegistry.RegisterForNavigation<AttitudeView, AttitudeViewModel>();
             containerRegistry.RegisterForNavigation<WindDirectionCompassView, WindDirectionCompassViewModel>();
