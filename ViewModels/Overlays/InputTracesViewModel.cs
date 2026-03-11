@@ -26,6 +26,9 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
         float _brake;
         float _clutch;
         float _speed;
+        private float _brakeBias;
+        private int _absValue;
+        private int _tcValue;
         float _minSpeed;
         float _maxSpeed;
         string _gear = "N";
@@ -110,6 +113,46 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
                 }
             }
         }
+
+        /// <summary>
+        /// Brake bias set by driver
+        /// </summary>
+        public float BrakeBias
+        {
+            get => _brakeBias;
+            set
+            {
+                _brakeBias = value;
+                OnPropertyChanged(nameof(BrakeBias));
+            }
+        }
+
+        /// <summary>
+        /// Traction control level set by driver
+        /// </summary>
+        public int TractionControlLevel
+        {
+            get => _tcValue;
+            set
+            {
+                _tcValue = value;
+                OnPropertyChanged(nameof(TractionControlLevel));
+            }
+        }
+
+        /// <summary>
+        /// Antilock brake level set by driver
+        /// </summary>
+        public int AntilockBrakeLevel
+        {
+            get => _absValue;
+            set
+            {
+                _absValue = value;
+                OnPropertyChanged(nameof(AntilockBrakeLevel));
+            }
+        }
+
 
         /// <summary>
         /// The current speed of the player's car in km/h.
@@ -284,7 +327,9 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
 
         #region Private Methods
 
-
+        /// <summary>
+        /// Updates the fill of the gear display based on the current RPM and redline values. Will blink as redline is approached
+        /// </summary>
         private void UpdateGearFill()
         {
             var gradientBrush = new LinearGradientBrush
@@ -356,7 +401,6 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
             CarDataModel playerCar = session.Cars.FirstOrDefault(car => car.IsPlayerCar);//.FirstOrDefault(c => c.IsPlayerCar);
             if (playerCar != null)
             {
-                GearFillPercentage = RPM;
                 //Populate queues to avoid sliding window effect for first data points
                 for (int i = _throttlePoints.Count; i < MaxDataPoints; i++)
                 {
@@ -366,6 +410,7 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
                     _clutchPoints.Enqueue(new DataPoint(i, 0));
                     _steeringPoints.Enqueue(new DataPoint(i, 50));
                 }
+                // Get current values from player car and update properties
                 Throttle = playerCar.Throttle * 100;
                 Brake = playerCar.Brake * 100;
                 Clutch = playerCar.Clutch * 100;
@@ -373,12 +418,12 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
                 RPM = playerCar.Rpm;
                 Redline = playerCar.Redline;
                 Speed = (int)playerCar.Speed;
-
-
+                BrakeBias = playerCar.BrakeBias;
+                TractionControlLevel = playerCar.TractionControl;
                 SteeringWheelAngle = playerCar.SteeringAngle;
                 SteeringWheelAngleMax = playerCar.SteeringAngleMax;
                 SteeringWheelAngle = ((playerCar.SteeringAngle / (playerCar.SteeringAngleMax/2)) * 0.5f + 0.5f) * 100;
-                //System.Diagnostics.Trace.WriteLine(SteeringWheelAngle);
+                GearFillPercentage = RPM;
 
                 // FIFO logic for plotting
                 double x = _throttlePoints.Count > 0 ? _throttlePoints.Last().X + 1 : 0;
@@ -387,6 +432,7 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
                 var clutchPoint = new DataPoint(x, Clutch);
                 var steeringPoint = new DataPoint(x, SteeringWheelAngle);
 
+                // Remove oldest point if we have reached the maximum number of data points to maintain a sliding window effect
                 if (_throttlePoints.Count >= MaxDataPoints)
                 {
                     _throttlePoints.Dequeue();
@@ -396,22 +442,22 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
                     _steeringPoints.Dequeue();
                 }
                     
+                // Add new points to the queues
                 _throttlePoints.Enqueue(throttlePoint);
-
-                if (!playerCar.IsABSActive)
+                if (!playerCar.IsABSActive) // If ABS is not active, draw red brake area
                 {
                     _brakePoints.Enqueue(brakePoint);
                     _AbsBrakePoints.Enqueue(new DataPoint(x, 0));
                 }
-                else
+                else // If ABS is active, draw orange brake area
                 {
                     _AbsBrakePoints.Enqueue(brakePoint);
                     _brakePoints.Enqueue(new DataPoint(x, 0));
                 }
-
                 _clutchPoints.Enqueue(clutchPoint);
                 _steeringPoints.Enqueue(steeringPoint);
 
+                // Remove all points from the series and add the updated points from the queues to update the plot
                 _throttleSeries.Points.Clear();
                 _brakeSeries.Points.Clear();
                 _AbsBrakeSeries.Points.Clear();

@@ -69,9 +69,21 @@
                     <!-- End of outline effect code -->
                     <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
                 </Grid>
-				
-				<TextBlock Text="KM/H" FontFamily="Arial Black" FontSize="10" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1"/>
 
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="KM/H" FontFamily="Arial Black" FontSize="10" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0" Grid.ColumnSpan="3"/>
+                    <!--<TextBlock Text="{Binding TractionControlLevel}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding BrakeBias}" Grid.Row="1" Grid.Column="1"/>-->
+                </Grid>
                 <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <!-- Creates outline effect for gear indicator -->
                     <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >

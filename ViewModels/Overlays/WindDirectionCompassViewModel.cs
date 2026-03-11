@@ -29,6 +29,9 @@ namespace iRacing_Quick_Release.Views.Overlays
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the yaw angle of the player's car relative to geographic north, in degrees.
+        /// </summary>
         public float PlayerCarYawFromNorth
         {
             get => _playerCarYawFromNorth;
@@ -39,6 +42,9 @@ namespace iRacing_Quick_Release.Views.Overlays
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current wind speed, in km/h.
+        /// </summary>
         public float WindSpeed
         {
             get => _windSpeed;
@@ -50,8 +56,14 @@ namespace iRacing_Quick_Release.Views.Overlays
             }
         }
 
+        /// <summary>
+        /// Wind speed formatted as a string with one decimal place and "km/h" unit, e.g. "12.3 km/h".
+        /// </summary>
         public string WindSpeedString => $"{WindSpeed:0.0} km/h";
 
+        /// <summary>
+        /// Get and sets the current wind direction, in degrees. The value is relative to the player's car orientation, with 0 degrees representing wind coming from directly ahead of the car, 90 degrees from the right, 180 degrees from behind, and 270 degrees from the left.
+        /// </summary>
         public float WindDirection
         {
             get => _windDirection;
@@ -62,7 +74,14 @@ namespace iRacing_Quick_Release.Views.Overlays
             }
         }
 
+        /// <summary>
+        /// Track temperature formatted as a string with one decimal place and "°C" unit, e.g. "35.2°C".
+        /// </summary>
         public string TrackTemperatureString => $"{TrackTemperature:0.0}°C";
+
+        /// <summary>
+        /// Track temperature in degrees Celsius, formatted as a string with one decimal place and "°C" unit, e.g. "35.2°C".
+        /// </summary>
         public float TrackTemperature
         {
             get => _trackTemperature;
@@ -74,6 +93,9 @@ namespace iRacing_Quick_Release.Views.Overlays
             }
         }
 
+        /// <summary>
+        /// Air temperature in degrees Celsius, formatted as a string with one decimal place and "°C" unit, e.g. "22.5°C".
+        /// </summary>
         public string AirTemperatureString => $"{AirTemperature:0.0}°C";
         public float AirTemperature
         {

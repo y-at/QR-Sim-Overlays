@@ -26,6 +26,9 @@ namespace QRO.ViewModels
         private static IOverlayWindowManagerService _overlayWindowManagerService;
         private bool _isConnectedToSimulator;
 
+        /// <summary>
+        /// Boolean indicating whether the telemetry service is currently connected to the simulator.
+        /// </summary>
         public bool IsConnectedToSimulator
         {
             get => _isConnectedToSimulator;
@@ -67,6 +70,9 @@ namespace QRO.ViewModels
 
         #region Public Methods
 
+        /// <summary>
+        /// Loads the input traces overlay view.
+        /// </summary>
         public void LoadInputTracesView()
         {
             OverlayName overlay = OverlayName.InputTraces;
@@ -76,6 +82,9 @@ namespace QRO.ViewModels
                 _overlayWindowManagerService.SpawnOverlay(overlay);
         }
 
+        /// <summary>
+        /// Loads the attitude indicator overlay view.
+        /// </summary>
         public void LoadAttitudeView() 
         {
             OverlayName overlay = OverlayName.AttitudeIndicator;
@@ -85,6 +94,9 @@ namespace QRO.ViewModels
                 _overlayWindowManagerService.SpawnOverlay(overlay);
         }
 
+        /// <summary>
+        /// Loads the wind direction compass overlay view.
+        /// </summary>
         public void LoadWindDirectionCompass()
         {
             OverlayName overlay = OverlayName.WindDirectionCompass;
@@ -97,6 +109,7 @@ namespace QRO.ViewModels
         #endregion
 
         #region Private Methods
+
         private void OnTelemetryConnected(object sender, EventArgs e)
         {
             IsConnectedToSimulator = true;

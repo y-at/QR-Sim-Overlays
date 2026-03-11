@@ -34,6 +34,9 @@ namespace QRO.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Boolean indicating whether the telemetry service is currently connected to the simulator. Used to determine the color of the connection status indicator in the UI (green if connected, red if not).
+        /// </summary>
         public bool IsConnected
         {
             get => _isConnected;

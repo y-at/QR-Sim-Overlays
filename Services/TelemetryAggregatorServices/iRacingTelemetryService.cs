@@ -152,8 +152,9 @@ namespace iRacing_Quick_Release.Services
                         carData.Clutch = (_iracingSdk.Data.GetFloat("Clutch", 0) - 1) * -1;
                         carData.Speed = _iracingSdk.Data.GetFloat("Speed", 0) * 3.6f;
                         carData.Gear = _iracingSdk.Data.GetInt("Gear", 0);
-                        //carData.BrakeBias = _iracingSdk.Data.GetFloat("dcBrakeBias", 0);
-                        //carData.TractionControl = _iracingSdk.Data.GetInt("dcTractionControl", 0);
+                        carData.BrakeBias = _iracingSdk.Data.GetFloat("dcBrakeBias", 0);
+                        carData.TractionControl = _iracingSdk.Data.GetInt("dcTractionControl", 0);
+                        //carData.ABSLevel = _iracingSdk.Data.GetInt("dcABS", 0);
                         carData.Rpm = _iracingSdk.Data.GetFloat("RPM", 0);
                         carData.Redline = _iracingSdk.Data.GetFloat("PlayerCarSLBlinkRPM", 0);
                         carData.SteeringAngle = _iracingSdk.Data.GetFloat("SteeringWheelAngle", 0) * 180 / (float)Math.PI;
