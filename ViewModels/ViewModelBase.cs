@@ -9,11 +9,19 @@ using System.Windows;
 
 namespace iRacing_Quick_Release.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
+        #region Fields
+
+        private bool _isDisposed;
+
+        #endregion
+
         #region Properties
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool IsDisposed => _isDisposed;
 
         #endregion
 
@@ -37,6 +45,20 @@ namespace iRacing_Quick_Release.ViewModels
 
         #endregion
 
+        /// <summary>
+        /// Override this method in derived classes to clean up resources and event subscriptions.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            // Base implementation - override in derived classes
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Dispose();
+            }
+        }
     }
 }

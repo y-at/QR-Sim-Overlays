@@ -142,7 +142,7 @@ namespace iRacing_Quick_Release.Views.Overlays
             }
 
             // Stops taking data when paused
-            if (session.IsPaused == true)
+            if (session.IsPaused == true || IsDisposed)
             {
                 return;
             }

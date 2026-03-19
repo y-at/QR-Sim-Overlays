@@ -395,7 +395,7 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
                 return;
             }
             // Stops taking data when paused
-            if (session.IsPaused == true)
+            if (session.IsPaused == true || IsDisposed)
                 return;
 
             CarDataModel playerCar = session.Cars.FirstOrDefault(car => car.IsPlayerCar);//.FirstOrDefault(c => c.IsPlayerCar);

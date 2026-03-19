@@ -122,7 +122,7 @@ namespace iRacing_Quick_Release.Services
         private void OnTelemetryData()
         {
             // If session info available, start processing data
-            if (!_isDataTransmitting) return;
+            if (!_isDataTransmitting || _iracingSdk == null) return;
 
             //Debug.WriteLine($"OnTelemetryData fired!");
 
@@ -187,6 +187,7 @@ namespace iRacing_Quick_Release.Services
 
         private void OnStopped()
         {
+            _iracingSdk.Stop();
             System.Diagnostics.Trace.WriteLine($"OnStopped() fired in {nameof(iRacingTelemetryService)}.");
         }
 

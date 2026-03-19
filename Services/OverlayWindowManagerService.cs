@@ -56,6 +56,7 @@ namespace QRO.Services
             {
                 overlayToClose.Window.Close();
                 _overlayWindows.Remove(overlayToClose);
+                overlayToClose = null;
             }
         }
         public bool IsOverlayOpen(OverlayName overlayEnum)
