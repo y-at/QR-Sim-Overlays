@@ -1,21 +1,23 @@
 ﻿using iRacing_Quick_Release.Models;
+using iRacing_Quick_Release.Enumerations;
+using iRacing_Quick_Release.Services;
+using IRSDKSharper;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using iRacing_Quick_Release.Enumerations;
-using IRSDKSharper;
+using QRO.Services;
 
 namespace iRacing_Quick_Release.Services
 {
-    public class TelemetryServiceManager : ITelemetryServiceManager
+    public class TelemetryServiceManager : ITelemetryServiceManager, IDisposable
     {
         #region Fields
 
         private ITelemetryService _activeService;
         private readonly Dictionary<Simulator, ITelemetryService> _services;
+        private readonly ISimulatorProcessMonitor _processMonitor;
+        private bool _isRunning;
+        private bool _autoStartEnabled;
 
         #endregion
 
@@ -46,21 +48,44 @@ namespace iRacing_Quick_Release.Services
         /// </summary>
         public bool IsDataTransmitting => _activeService?.IsDataTransmitting ?? false;
 
+        /// <summary>
+        /// Is the telemetry service currently running.
+        /// </summary>
+        public bool IsRunning => _isRunning;
+
+        /// <summary>
+        /// Enable automatic start/stop based on simulator process detection.
+        /// </summary>
+        public bool AutoStartEnabled
+        {
+            get => _autoStartEnabled;
+            set
+            {
+                _autoStartEnabled = value;
+                if (value)
+                    EnableAutoStart();
+                else
+                    DisableAutoStart();
+            }
+        }
+
         #endregion
 
         #region Constructors
 
-        public TelemetryServiceManager()
+        public TelemetryServiceManager(ISimulatorProcessMonitor processMonitor)
         {
-            //Only iRacing for now.
+            _processMonitor = processMonitor ?? throw new ArgumentNullException(nameof(processMonitor));
+
             _services = new Dictionary<Simulator, ITelemetryService>
             {
                 { Simulator.iRacing, new iRacingTelemetryService(new IRacingSdk()) }
             };
 
-            // Temp solution, will fix soon
-            InitializeServices(); 
             SetActiveService(Simulator.iRacing);
+            _isRunning = false;
+            EnableAutoStart();
+
         }
 
         #endregion
@@ -69,10 +94,7 @@ namespace iRacing_Quick_Release.Services
 
         public void InitializeServices()
         {
-            foreach (var service in _services.Values)
-            {
-                service.Start();
-            }
+            // Services are now initialized lazily
         }
 
         /// <summary>
@@ -81,6 +103,15 @@ namespace iRacing_Quick_Release.Services
         /// <param name="simulatorService">The telemetry service relevant to the game loaded</param>
         public void SetActiveService(Simulator simulatorService)
         {
+            // Stop current service before switching
+            if (_isRunning && _activeService != null)
+            {
+                _activeService.Stop();
+                _activeService.DataReceived -= OnDataReceived;
+                _activeService.Connected -= OnConnected;
+                _activeService.Disconnected -= OnDisconnected;
+            }
+
             // Activate requested service
             if (_services.TryGetValue(simulatorService, out var newService))
             {
@@ -88,6 +119,12 @@ namespace iRacing_Quick_Release.Services
                 _activeService.DataReceived += OnDataReceived;
                 _activeService.Connected += OnConnected;
                 _activeService.Disconnected += OnDisconnected;
+
+                // If currently running, start the new service
+                if (_isRunning)
+                {
+                    _activeService.Start();
+                }
             }
             else
             {
@@ -100,20 +137,54 @@ namespace iRacing_Quick_Release.Services
         /// </summary>
         public void Start()
         {
-            _activeService?.Start();
+            if (!_isRunning && _activeService != null)
+            {
+                _activeService.Start();
+                _isRunning = true;
+            }
         }
 
         /// <summary>
-        /// End the selected telemetry service for data reception.
+        /// Stop the selected telemetry service for data reception.
         /// </summary>
         public void Stop()
         {
-            _activeService?.Stop();
+            if (_isRunning && _activeService != null)
+            {
+                _activeService.Stop();
+                _isRunning = false;
+            }
         }
 
         #endregion
 
         #region Private Methods
+
+        private void EnableAutoStart()
+        {
+            _processMonitor.ProcessStateChanged += OnSimulatorProcessStateChanged;
+            _processMonitor.StartMonitoring();
+        }
+
+        private void DisableAutoStart()
+        {
+            _processMonitor.ProcessStateChanged -= OnSimulatorProcessStateChanged;
+            _processMonitor.StopMonitoring();
+        }
+
+        private void OnSimulatorProcessStateChanged(Simulator simulator, bool isRunning)
+        {
+            if (isRunning && !_isRunning)
+            {
+                System.Diagnostics.Trace.WriteLine($"{nameof(simulator)} detected, starting telemetry...");
+                Start();
+            }
+            else if (!isRunning && _isRunning)
+            {
+                System.Diagnostics.Trace.WriteLine($"{nameof(simulator)} closed, stopping telemetry...");
+                Stop();
+            }
+        }
 
         private void OnDataReceived(SessionModel session)
         {
@@ -128,6 +199,13 @@ namespace iRacing_Quick_Release.Services
         private void OnDisconnected(object sender, EventArgs e)
         {
             Disconnected?.Invoke(sender, e);
+        }
+
+        public void Dispose()
+        {
+            Stop();
+            DisableAutoStart();
+            (_activeService as IDisposable)?.Dispose();
         }
 
         #endregion

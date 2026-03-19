@@ -30,6 +30,8 @@ namespace QRO.Services
 
         #region Properties
 
+        public Collection<OverlayName> CurrentOpenOverlays => new Collection<OverlayName>(_overlayWindows.Select(o => o.Name).ToList());
+
         #endregion
 
         #region Public Methods

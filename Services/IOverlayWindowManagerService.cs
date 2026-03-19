@@ -1,6 +1,7 @@
 ﻿using QRO.Enumerations;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace QRO.Services
 {
     public interface IOverlayWindowManagerService
     {
+        Collection<OverlayName> CurrentOpenOverlays { get; }
         /// <summary>
         /// Displays the specified overlay on the screen.
         /// </summary>

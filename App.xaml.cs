@@ -6,6 +6,7 @@ using iRacing_Quick_Release.Services;
 using iRacing_Quick_Release.ViewModels.Overlays;
 using iRacing_Quick_Release.Views;
 using iRacing_Quick_Release.Views.Overlays;
+using QRO.Enumerations;
 using QRO.Services;
 using QRO.Services.Factories;
 using QRO.ViewModels;
@@ -38,12 +39,7 @@ namespace QRO
             containerRegistry.RegisterSingleton<IOverlayWindowFactory, OverlayWindowFactory>();
             containerRegistry.RegisterSingleton<IOverlayWindowManagerService, OverlayWindowManagerService>();
             containerRegistry.RegisterSingleton<ITelemetryServiceManager, TelemetryServiceManager>();
-        }
-
-        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
-        {
-            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
-            // Add custom region adapters here if needed
+            containerRegistry.RegisterSingleton<ISimulatorProcessMonitor, SimulatorProcessMonitor>();
         }
 
         protected override void OnInitialized()
@@ -52,6 +48,27 @@ namespace QRO
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion(UIRegions.SidebarRegion, typeof(SidebarMainView));
             regionManager.RegisterViewWithRegion(UIRegions.ContentRegion, typeof(OverlaySelectorView));
+
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            // Stop and clean up telemetry service
+            var telemetryManager = Container.Resolve<ITelemetryServiceManager>();
+            telemetryManager?.Stop();
+
+            // Close all overlay windows
+            var overlayManager = Container.Resolve<IOverlayWindowManagerService>();
+            if (overlayManager != null)
+            {
+                foreach (OverlayName openOverlays in overlayManager.CurrentOpenOverlays)
+                {
+                    overlayManager.CloseOverlay(openOverlays);
+                }
+            }
+
+            base.OnExit(e);
         }
     }
 }
