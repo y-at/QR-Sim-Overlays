@@ -45,10 +45,15 @@ namespace QRO
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion(UIRegions.SidebarRegion, typeof(SidebarMainView));
             regionManager.RegisterViewWithRegion(UIRegions.ContentRegion, typeof(OverlaySelectorView));
 
+            // Enable auto-start for telemetry monitoring after UI is initialized
+            var telemetryManager = Container.Resolve<ITelemetryServiceManager>();
+            telemetryManager.AutoStartEnabled = true;
+            
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
@@ -56,7 +61,7 @@ namespace QRO
         {
             // Stop and clean up telemetry service
             var telemetryManager = Container.Resolve<ITelemetryServiceManager>();
-            telemetryManager?.Stop();
+            telemetryManager?.Dispose();
 
             // Close all overlay windows
             var overlayManager = Container.Resolve<IOverlayWindowManagerService>();

@@ -32,6 +32,10 @@ namespace iRacing_Quick_Release.Services
         /// </summary>
         bool IsDataTransmitting { get; }
         /// <summary>
+        /// Gets or sets a value indicating whether automatic startup is enabled.
+        /// </summary>
+        bool AutoStartEnabled { get; set; }
+        /// <summary>
         /// Initializes and configures all required application services.
         /// </summary>
         void InitializeServices();
@@ -48,5 +52,7 @@ namespace iRacing_Quick_Release.Services
         /// End the selected telemetry service for data reception.
         /// </summary>
         void Stop();
+
+        void Dispose();
     }
 }

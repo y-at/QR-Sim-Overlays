@@ -84,8 +84,6 @@ namespace iRacing_Quick_Release.Services
 
             SetActiveService(Simulator.iRacing);
             _isRunning = false;
-            EnableAutoStart();
-
         }
 
         #endregion
