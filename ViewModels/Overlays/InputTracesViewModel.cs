@@ -1,6 +1,4 @@
-﻿using iRacing_Quick_Release.Models;
-using iRacing_Quick_Release.Services;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using System;
@@ -12,8 +10,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using QRO.Models;
+using QRO.Services;
 
-namespace iRacing_Quick_Release.ViewModels.Overlays
+namespace QRO.ViewModels.Overlays
 {
     // Note to self: This class could use a lot of refactoring for efficient data handling and maintainability.
     public class InputTracesViewModel : ViewModelBase
@@ -379,6 +379,32 @@ namespace iRacing_Quick_Release.ViewModels.Overlays
             }
 
             GearFill = gradientBrush;
+        }
+
+        #endregion
+
+        #region Protected Methods
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_telemetryServiceManager != null)
+                {
+                    _telemetryServiceManager.DataReceived -= OnDataReceived;
+                }
+                if (_blinkTimer != null)
+                {
+                    _blinkTimer.Stop();
+                    _blinkTimer.Tick -= BlinkTimer_Tick;
+                    _blinkTimer = null;
+                }
+                _throttlePoints?.Clear();
+                _brakePoints?.Clear();
+                _AbsBrakePoints?.Clear();
+                _clutchPoints?.Clear();
+                _steeringPoints?.Clear();
+            }
+            base.Dispose(disposing);
         }
 
         #endregion

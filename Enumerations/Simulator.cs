@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iRacing_Quick_Release.Enumerations
+namespace QRO.Enumerations
 {
     /// <summary>
     /// An enumeration representing the different simulators that can be used with the application

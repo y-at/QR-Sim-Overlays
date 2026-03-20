@@ -1,15 +1,15 @@
-﻿using iRacing_Quick_Release.Models;
-using iRacing_Quick_Release.Services;
-using iRacing_Quick_Release.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using QRO.Models;
+using QRO.Services;
+using QRO.ViewModels;
 
-namespace iRacing_Quick_Release.Views.Overlays
+namespace QRO.Views.Overlays
 {
     public class WindDirectionCompassViewModel : ViewModelBase
     {

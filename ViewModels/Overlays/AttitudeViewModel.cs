@@ -1,13 +1,13 @@
-﻿using iRacing_Quick_Release.Models;
-using iRacing_Quick_Release.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using QRO.Models;
+using QRO.Services;
 
-namespace iRacing_Quick_Release.ViewModels.Overlays
+namespace QRO.ViewModels.Overlays
 {
     public class AttitudeViewModel : ViewModelBase
     {

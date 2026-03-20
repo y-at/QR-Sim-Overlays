@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using iRacing_Quick_Release.ViewModels.Overlays;
+using QRO.ViewModels.Overlays;
 
-namespace iRacing_Quick_Release.Views.Overlays
+namespace QRO.Views.Overlays
 {
     /// <summary>
     /// Interaction logic for AttitudeView.xaml

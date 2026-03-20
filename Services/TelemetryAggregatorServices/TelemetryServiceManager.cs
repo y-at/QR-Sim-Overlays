@@ -1,13 +1,12 @@
-﻿using iRacing_Quick_Release.Models;
-using iRacing_Quick_Release.Enumerations;
-using iRacing_Quick_Release.Services;
-using IRSDKSharper;
+﻿using IRSDKSharper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using QRO.Enumerations;
+using QRO.Models;
 using QRO.Services;
 
-namespace iRacing_Quick_Release.Services
+namespace QRO.Services
 {
     public class TelemetryServiceManager : ITelemetryServiceManager, IDisposable
     {

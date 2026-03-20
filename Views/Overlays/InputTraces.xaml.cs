@@ -1,8 +1,8 @@
-using iRacing_Quick_Release.ViewModels.Overlays;
 using System.Windows;
 using System.Windows.Input;
+using QRO.ViewModels.Overlays;
 
-namespace iRacing_Quick_Release.Views
+namespace QRO.Views
 {
     public partial class InputTraces : Window
     {

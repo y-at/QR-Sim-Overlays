@@ -1,6 +1,6 @@
-﻿using iRacing_Quick_Release.ViewModels.Overlays;
-using iRacing_Quick_Release.Views;
-using iRacing_Quick_Release.Views.Overlays;
+﻿using QRO.ViewModels.Overlays;
+using QRO.Views;
+using QRO.Views.Overlays;
 using System;
 using System.Collections.Generic;
 using System.Linq;

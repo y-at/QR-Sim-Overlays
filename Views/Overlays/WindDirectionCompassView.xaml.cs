@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace iRacing_Quick_Release.Views.Overlays
+namespace QRO.Views.Overlays
 {
     public partial class WindDirectionCompassView : Window
     {

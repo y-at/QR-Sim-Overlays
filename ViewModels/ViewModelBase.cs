@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace iRacing_Quick_Release.ViewModels
+namespace QRO.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {

@@ -2,10 +2,8 @@
 using Prism.Regions;
 using QRO.Views;
 using System.Windows;
-using iRacing_Quick_Release.Services;
-using iRacing_Quick_Release.ViewModels.Overlays;
-using iRacing_Quick_Release.Views;
-using iRacing_Quick_Release.Views.Overlays;
+using QRO.ViewModels.Overlays;
+using QRO.Views.Overlays;
 using QRO.Enumerations;
 using QRO.Services;
 using QRO.Services.Factories;

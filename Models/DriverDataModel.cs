@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iRacing_Quick_Release.Models
+namespace QRO.Models
 {
     public class DriverDataModel
     {

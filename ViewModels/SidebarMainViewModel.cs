@@ -1,5 +1,5 @@
-﻿using iRacing_Quick_Release.Services;
-using iRacing_Quick_Release.ViewModels;
+﻿using QRO.Services;
+using QRO.ViewModels;
 using Prism.Regions;
 using QRO.Views;
 using System;

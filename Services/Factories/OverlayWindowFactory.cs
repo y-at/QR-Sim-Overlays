@@ -1,6 +1,6 @@
-﻿using iRacing_Quick_Release.Services;
-using iRacing_Quick_Release.ViewModels.Overlays;
-using iRacing_Quick_Release.Views;
+﻿using QRO.Services;
+using QRO.ViewModels.Overlays;
+using QRO.Views;
 using QRO.Enumerations;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using iRacing_Quick_Release.Views.Overlays;
+using QRO.Views.Overlays;
 
 namespace QRO.Services.Factories
 {

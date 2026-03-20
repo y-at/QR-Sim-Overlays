@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using iRacing_Quick_Release.Enumerations;
+using QRO.Enumerations;
 
 namespace QRO.Services
 {

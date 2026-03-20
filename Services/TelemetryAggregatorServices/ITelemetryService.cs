@@ -1,11 +1,11 @@
-﻿using iRacing_Quick_Release.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QRO.Models;
 
-namespace iRacing_Quick_Release.Services
+namespace QRO.Services
 {
     public interface ITelemetryService
     {
