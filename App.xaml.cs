@@ -34,6 +34,7 @@ namespace QRO
             containerRegistry.RegisterForNavigation<WindDirectionCompassView, WindDirectionCompassViewModel>();
 
             // Register services
+            containerRegistry.RegisterSingleton<IStorageService, StorageService>();
             containerRegistry.RegisterSingleton<IOverlayWindowFactory, OverlayWindowFactory>();
             containerRegistry.RegisterSingleton<IOverlayWindowManagerService, OverlayWindowManagerService>();
             containerRegistry.RegisterSingleton<ITelemetryServiceManager, TelemetryServiceManager>();
@@ -48,7 +49,6 @@ namespace QRO
             regionManager.RegisterViewWithRegion(UIRegions.SidebarRegion, typeof(SidebarMainView));
             regionManager.RegisterViewWithRegion(UIRegions.ContentRegion, typeof(OverlaySelectorView));
 
-            // Enable auto-start for telemetry monitoring after UI is initialized
             var telemetryManager = Container.Resolve<ITelemetryServiceManager>();
             telemetryManager.AutoStartEnabled = true;
             

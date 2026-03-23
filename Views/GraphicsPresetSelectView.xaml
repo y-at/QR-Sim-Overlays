@@ -1,10 +1,80 @@
-﻿<UserControl x:Class="QRO.Views.GraphicsPresetSelectView"
+<UserControl x:Class="QRO.Views.GraphicsPresetSelectView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:QRO.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-Graphics preset
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="600">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Graphics Presets"
+                   FontSize="18" FontWeight="Bold"
+                   Margin="0,0,0,12"/>
+
+        <!-- VR / Monitor toggle -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
+            <TextBlock Text="Mode:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <RadioButton Content="Monitor"
+                         IsChecked="{Binding IsMonitorMode}"
+                         VerticalAlignment="Center" Margin="0,0,12,0"/>
+            <RadioButton Content="VR"
+                         IsChecked="{Binding IsVrMode}"
+                         VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding GameFileName, StringFormat='  ({0})'}"
+                       VerticalAlignment="Center"
+                       Foreground="Gray" FontStyle="Italic"/>
+        </StackPanel>
+
+        <!-- Save new preset -->
+        <TextBlock Grid.Row="2"
+                   Text="{Binding ModeLabel, StringFormat='Save current {0} settings file as a new preset:'}"
+                   Margin="0,0,0,4"/>
+
+        <Grid Grid.Row="3" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
+                     Text="{Binding NewPresetName, UpdateSourceTrigger=PropertyChanged}"
+                     Padding="4,3"
+                     Margin="0,0,8,0"/>
+            <Button Grid.Column="1"
+                    Content="Save as Preset"
+                    Command="{Binding SaveCommand}"
+                    Padding="10,4"/>
+        </Grid>
+
+        <!-- Presets list -->
+        <ListBox Grid.Row="4"
+                 ItemsSource="{Binding Presets}"
+                 SelectedItem="{Binding SelectedFilePreset}"
+                 DisplayMemberPath="Name"
+                 Margin="0,0,0,8"/>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button Content="Load Selected"
+                    Command="{Binding LoadCommand}"
+                    Padding="10,4" Margin="0,0,8,0"/>
+            <Button Content="Delete Selected"
+                    Command="{Binding DeleteCommand}"
+                    Padding="10,4"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="6"
+                   Text="{Binding StatusMessage}"
+                   Foreground="Gray"
+                   FontStyle="Italic"
+                   TextWrapping="Wrap"/>
+    </Grid>
 </UserControl>
