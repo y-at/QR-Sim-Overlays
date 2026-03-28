@@ -4,6 +4,76 @@
              xmlns:local="clr-namespace:QRO"
              xmlns:prism="http://prismlibrary.com/" >
     <Application.Resources>
-        <!-- Add your application-level resources here (styles, brushes, etc.) -->
+        <!-- Global color resources -->
+        <Color x:Key="BackgroundColor">#6b6461</Color>
+
+        <!-- Background Brush for views -->
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+
+        <!-- Background Style for Grid -->
+        <Style x:Key="BackgroundAppColour" TargetType="Grid">
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        </Style>
+
+        <!-- Connection Status Grid Style -->
+        <Style x:Key="ConnectionStatusGridStyle" TargetType="Grid">
+            <Setter Property="Background" Value="Red"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                    <Setter Property="Background" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Base Navigation Button Style -->
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="DarkGray"/>
+            <Setter Property="Background" Value="DimGray"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="BackgroundBorder" Background="{TemplateBinding Background}" CornerRadius="4"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="BackgroundBorder" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Overlays Button Style -->
+        <Style x:Key="OverlaysNavButtonStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+            <Style.Triggers>
+                <!-- Not Connected and Selected -->
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsConnected}" Value="False"/>
+                        <Condition Binding="{Binding SelectedButton}" Value="Overlays"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="#8B0000"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </MultiDataTrigger>
+                <!-- Connected and Selected -->
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsConnected}" Value="True"/>
+                        <Condition Binding="{Binding SelectedButton}" Value="Overlays"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="#006400"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
     </Application.Resources>
 </prism:PrismApplication>

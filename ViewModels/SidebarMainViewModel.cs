@@ -19,6 +19,7 @@ namespace QRO.ViewModels
         private IRegionManager _regionManager;
 
         private bool _isConnected;
+        private string _selectedButton;
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace QRO.ViewModels
             _telemetryServiceManager.Disconnected += OnTelemetryDisconnected;
 
             IsConnected = _telemetryServiceManager.IsConnected;
+            SelectedButton = "Overlays"; // Set default selected button
         }
 
         #endregion
@@ -48,27 +50,40 @@ namespace QRO.ViewModels
             private set => SetProperty(ref _isConnected, value);
         }
 
+        /// <summary>
+        /// Indicates which navigation button is currently selected.
+        /// </summary>
+        public string SelectedButton
+        {
+            get => _selectedButton;
+            set => SetProperty(ref _selectedButton, value);
+        }
+
         #endregion
 
         #region Public Methods
 
         public void OnOverlayTabSelected()
         {
+            SelectedButton = "Overlays";
             _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(OverlaySelectorView));
         }
 
         public void OnControlsPresetsTabSelected()
         {
+            SelectedButton = "ControlsPresets";
             _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(ControlPresetSelectView));
         }
 
         public void OnGraphicsPresetsTabSelected()
         {
+            SelectedButton = "GraphicsPresets";
             _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(GraphicsPresetSelectView));
         }
 
         public void OnRaceEngineerTabSelected()
         {
+            SelectedButton = "RaceEngineer";
             _regionManager.RequestNavigate(UIRegions.ContentRegion, nameof(RaceEngineerChatView));
         }
 
@@ -78,7 +93,7 @@ namespace QRO.ViewModels
             {
                 var psi = new System.Diagnostics.ProcessStartInfo
                 {
-                    FileName = "https://github.com/",
+                    FileName = "https://github.com/y-at/QR-Sim-Overlays",
                     UseShellExecute = true
                 };
                 System.Diagnostics.Process.Start(psi);
