@@ -6,5 +6,7 @@
              xmlns:local="clr-namespace:QRO.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-Race engineer chat
+    <Grid Style="{StaticResource BackgroundAppColour}">
+        <TextBlock>Race Engineer chat coming soon!</TextBlock>
+    </Grid>
 </UserControl>

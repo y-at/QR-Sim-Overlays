@@ -12,9 +12,13 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
 
             <!-- Navigation Buttons -->
-            <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="5">
+            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="5">
                 <!-- Overlays Button -->
                 <Button Content="Overlays" Click="OverlayButton_Click" ToolTip="Overlays" Margin="0,0,0,5">
                     <Button.Style>
@@ -115,11 +119,12 @@
             </StackPanel>
 
             <!-- GitHub Button -->
-            <Grid Grid.Row="1" Margin="5">
+            <Grid Grid.Row="1" Grid.Column="0" Margin="5">
                 <Button ToolTip="Visit GitHub Repository" Click="GitHubButton_Click" Style="{StaticResource NavButtonStyle}" Background="DarkSlateGray">
                     <Image Source="/Resources/Images/GitHub_Dark.png" Margin="6" />
                 </Button>
             </Grid>
+            <Grid Grid.Column="1" Grid.RowSpan="2" Background="#ffffff"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -5,7 +5,7 @@
              xmlns:prism="http://prismlibrary.com/" >
     <Application.Resources>
         <!-- Global color resources -->
-        <Color x:Key="BackgroundColor">#6b6461</Color>
+        <Color x:Key="BackgroundColor">#d6d6d6</Color>
 
         <!-- Background Brush for views -->
         <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
