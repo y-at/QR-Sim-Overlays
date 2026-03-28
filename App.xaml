@@ -61,7 +61,6 @@
                         <Condition Binding="{Binding SelectedButton}" Value="Overlays"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="#8B0000"/>
-                    <Setter Property="Foreground" Value="White"/>
                 </MultiDataTrigger>
                 <!-- Connected and Selected -->
                 <MultiDataTrigger>
@@ -70,7 +69,6 @@
                         <Condition Binding="{Binding SelectedButton}" Value="Overlays"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="#006400"/>
-                    <Setter Property="Foreground" Value="White"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
