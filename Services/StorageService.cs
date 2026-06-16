@@ -173,7 +173,7 @@ namespace QRO.Services
                 case FilePresetType.Controls:
                     return "controls.cfg";
                 case FilePresetType.GraphicsMonitor:
-                    return "rendererDX11OpenXR.ini";
+                    return "rendererDX11Monitor.ini";
                 case FilePresetType.GraphicsVR:
                     return "rendererDX11OpenXR.ini";
                 default:
