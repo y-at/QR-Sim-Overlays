@@ -4,7 +4,8 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:local="clr-namespace:QRO"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding QRO}" Height="350" Width="525" >
+        Title="Quick Release Overlays" 
+        Height="350" Width="525">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
