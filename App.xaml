@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:QRO"
              xmlns:prism="http://prismlibrary.com/" >
     <Application.Resources>
+        <!-- Converters -->
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <!-- Global color resources -->
         <Color x:Key="BackgroundColor">#d6d6d6</Color>
 

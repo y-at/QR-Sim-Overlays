@@ -156,7 +156,11 @@ namespace QRO.Services
                     return Path.Combine(AppDataRoot, "Controls");
                 case FilePresetType.GraphicsMonitor:
                     return Path.Combine(AppDataRoot, "Graphics", "Monitor");
-                case FilePresetType.GraphicsVR:
+                case FilePresetType.GraphicsVrOpenXr:
+                    return Path.Combine(AppDataRoot, "Graphics", "VR");
+                case FilePresetType.GraphicsVrOpenVr:
+                    return Path.Combine(AppDataRoot, "Graphics", "VR");
+                case FilePresetType.GraphicsVrOculus:
                     return Path.Combine(AppDataRoot, "Graphics", "VR");
                 default:
                     throw new ArgumentException($"{nameof(StorageService)} in {nameof(GetPresetDirectory)} FilePresetType of {nameof(type)} does not exist as available option.");
@@ -174,8 +178,12 @@ namespace QRO.Services
                     return "controls.cfg";
                 case FilePresetType.GraphicsMonitor:
                     return "rendererDX11Monitor.ini";
-                case FilePresetType.GraphicsVR:
+                case FilePresetType.GraphicsVrOpenVr:
                     return "rendererDX11OpenXR.ini";
+                case FilePresetType.GraphicsVrOpenXr:
+                    return "rendererDX11OpenVR.ini";
+                case FilePresetType.GraphicsVrOculus:
+                    return "rendererDX11Oculus.ini";
                 default:
                     throw new ArgumentException($"{nameof(StorageService)} in {nameof(GetGameFileName)} FilePresetType of {nameof(type)} does not exist as available option." );
             }

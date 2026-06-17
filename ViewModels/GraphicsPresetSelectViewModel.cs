@@ -6,6 +6,7 @@ using QRO.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace QRO.ViewModels
@@ -16,8 +17,10 @@ namespace QRO.ViewModels
 
         private readonly IStorageService _storageService;
         private bool _isVrMode = false;
+        private readonly ObservableCollection<string> _vrRenderModeCollection = new ObservableCollection<string>();
+        private string _selectedVrRenderMode;
 
-        private FilePresetType ActiveFilePresetType => _isVrMode ? FilePresetType.GraphicsVR : FilePresetType.GraphicsMonitor;
+        private FilePresetType ActiveFilePresetType => GetActivePresetType();
 
         #endregion
 
@@ -27,6 +30,9 @@ namespace QRO.ViewModels
         {
             _storageService = storageService;
 
+            PopulateVrRenderModes();
+            _selectedVrRenderMode = VrRenderModeCollection.FirstOrDefault();
+
             SaveCommand = new DelegateCommand(SaveCurrentAsPreset);
             LoadCommand = new DelegateCommand(LoadSelectedPreset);
             DeleteCommand = new DelegateCommand(DeleteSelectedPreset);
@@ -35,6 +41,27 @@ namespace QRO.ViewModels
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Collection of available VR render modes.
+        /// </summary>
+        public ObservableCollection<string> VrRenderModeCollection => _vrRenderModeCollection;
+
+        /// <summary>
+        /// The selected VR render mode as a string. Changing this value will trigger any necessary updates to the graphics settings file when in VR mode. This property is only relevant when <see cref="IsVrMode"/> is true.
+        /// </summary>
+        public string SelectedVrRenderMode
+        {
+            get => _selectedVrRenderMode;
+            set
+            {
+                if (SetProperty(ref _selectedVrRenderMode, value))
+                {
+                    OnPropertyChanged(nameof(SelectedVrRenderMode));
+                    OnPropertyChanged(nameof(GameFileName));
+                }
+            }
+        }
 
         /// <summary>
         /// Boolean indicating whether the user is currently managing VR graphics settings (true) or Monitor graphics settings (false). Changing this value refreshes the preset list and prompts a backup if needed.
@@ -48,6 +75,7 @@ namespace QRO.ViewModels
                 {
                     OnPropertyChanged(nameof(ModeLabel));
                     OnPropertyChanged(nameof(GameFileName));
+                    OnPropertyChanged(nameof(IsVrMode));
                     RefreshPresets();
                 }
             }
@@ -59,15 +87,6 @@ namespace QRO.ViewModels
         public bool IsMonitorMode
         {
             get => !_isVrMode;
-            set
-            {
-                if (SetProperty(ref _isVrMode, !value))
-                {
-                    OnPropertyChanged(nameof(ModeLabel));
-                    OnPropertyChanged(nameof(GameFileName));
-                    RefreshPresets();
-                }
-            }
         }
 
         /// <summary>
@@ -78,7 +97,7 @@ namespace QRO.ViewModels
         /// <summary>
         /// Gets the name of the game configuration file based on the current rendering mode.
         /// </summary>
-        public string GameFileName => _isVrMode ? "rendererDX11OpenXR.ini" : "RendererDX11Monitor.ini";
+        public string GameFileName => _isVrMode ? $"RendererDX11{SelectedVrRenderMode}.ini" : "RendererDX11Monitor.ini";
 
         /// <summary>
         /// Gets the command that saves the current data or state.
@@ -235,6 +254,29 @@ namespace QRO.ViewModels
                 NewPresetName = "Backup_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm");
                 SaveCurrentAsPreset();
             }
+        }
+
+        private void PopulateVrRenderModes()
+        {
+            _vrRenderModeCollection.Clear();
+            foreach (var mode in Enum.GetValues(typeof(VrRenderMode)))
+            {
+                _vrRenderModeCollection.Add(mode.ToString());
+            }
+        }
+
+        private FilePresetType GetActivePresetType()
+        {
+            if (!_isVrMode)
+                return FilePresetType.GraphicsMonitor;
+
+            return SelectedVrRenderMode switch
+                {
+                "OpenXr" => FilePresetType.GraphicsVrOpenXr,
+                "OpenVr" => FilePresetType.GraphicsVrOpenVr,
+                "Oculus" => FilePresetType.GraphicsVrOculus,
+                _ => throw new InvalidOperationException($"Unexpected VR render mode: {SelectedVrRenderMode}")
+            };
         }
 
         #endregion

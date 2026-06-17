@@ -4,6 +4,8 @@ namespace QRO.Enumerations
     {
         Controls,
         GraphicsMonitor,
-        GraphicsVR
+        GraphicsVrOpenXr,
+        GraphicsVrOpenVr,
+        GraphicsVrOculus,
     }
 }

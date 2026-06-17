@@ -26,11 +26,16 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
                 <TextBlock Text="Mode:" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <RadioButton Content="Monitor"
-                             IsChecked="{Binding IsMonitorMode}"
+                             IsChecked="{Binding IsMonitorMode, Mode=OneWay}"
                              VerticalAlignment="Center" Margin="0,0,12,0"/>
                 <RadioButton Content="VR"
                              IsChecked="{Binding IsVrMode}"
                              VerticalAlignment="Center"/>
+                <ComboBox Visibility="{Binding IsVrMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          ItemsSource="{Binding VrRenderModeCollection}"
+                          SelectedItem="{Binding SelectedVrRenderMode}"
+                          Margin="10,0,10,0"/>
+                
                 <TextBlock Text="{Binding GameFileName, StringFormat='  ({0})'}"
                            VerticalAlignment="Center"
                            Foreground="Gray" FontStyle="Italic"/>
