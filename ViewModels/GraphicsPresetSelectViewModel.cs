@@ -272,8 +272,8 @@ namespace QRO.ViewModels
 
             return SelectedVrRenderMode switch
                 {
-                "OpenXr" => FilePresetType.GraphicsVrOpenXr,
-                "OpenVr" => FilePresetType.GraphicsVrOpenVr,
+                "OpenXR" => FilePresetType.GraphicsVrOpenXr,
+                "OpenVR" => FilePresetType.GraphicsVrOpenVr,
                 "Oculus" => FilePresetType.GraphicsVrOculus,
                 _ => throw new InvalidOperationException($"Unexpected VR render mode: {SelectedVrRenderMode}")
             };
