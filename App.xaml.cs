@@ -47,6 +47,11 @@ namespace QRO
             containerRegistry.RegisterSingleton<IRaceEngineerContextBuilder, RaceEngineerContextBuilder>();
             containerRegistry.RegisterSingleton<OpenAIChatClient>();
             containerRegistry.RegisterSingleton<AnthropicChatClient>();
+            containerRegistry.RegisterSingleton<IThemeService, ThemeService>();
+
+            // Apply the saved theme now, before the shell window is created, to avoid a flash of the wrong theme.
+            var themeService = Container.Resolve<IThemeService>();
+            themeService.ApplyTheme(themeService.LoadSavedTheme());
         }
 
         protected override void OnInitialized()

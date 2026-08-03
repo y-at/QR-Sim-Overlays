@@ -22,129 +22,36 @@
                 <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="5">
                     
                             <!-- Overlays Button -->
-                    <Button Content="Overlays" Click="OverlayButton_Click" ToolTip="Overlays" Margin="0,0,0,5">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="False"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="Overlays"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#8B0000"/>
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="True"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="Overlays"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#006400"/>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Button Content="Overlays" Click="OverlayButton_Click" ToolTip="Overlays" Margin="0,0,0,5"
+                            Style="{StaticResource OverlaysNavButtonStyle}"/>
 
                     <!-- Controls Presets Button -->
-                    <Button Content="Controls presets" Click="ControlsPresetsButton_Click" Margin="0,5">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="False"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="ControlsPresets"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#8B0000"/>
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="True"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="ControlsPresets"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#006400"/>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Button Content="Controls presets" Click="ControlsPresetsButton_Click" Margin="0,5"
+                            Style="{StaticResource ControlsPresetsNavButtonStyle}"/>
 
                     <!-- Graphics Presets Button -->
-                    <Button Content="Graphics presets" Click="GraphicsPresetsButton_Click" Margin="0,5">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="False"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="GraphicsPresets"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#8B0000"/>
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="True"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="GraphicsPresets"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#006400"/>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Button Content="Graphics presets" Click="GraphicsPresetsButton_Click" Margin="0,5"
+                            Style="{StaticResource GraphicsPresetsNavButtonStyle}"/>
 
                     <!-- Race Engineer Button -->
-                    <Button Content="Race engineer" Click="RaceEngineerButton_Click" Margin="0,5">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="False"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="RaceEngineer"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#8B0000"/>
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsConnected}" Value="True"/>
-                                            <Condition Binding="{Binding SelectedButton}" Value="RaceEngineer"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Background" Value="#006400"/>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Button Content="Race engineer" Click="RaceEngineerButton_Click" Margin="0,5"
+                            Style="{StaticResource RaceEngineerNavButtonStyle}"/>
                 </StackPanel>
             </ScrollViewer>
 
-            <!-- GitHub Button -->
-            <Grid Grid.Row="1" Grid.Column="0" Margin="5">
-                <Button ToolTip="Visit GitHub Repository" Click="GitHubButton_Click" Style="{StaticResource NavButtonStyle}" Background="DarkSlateGray">
+            <!-- Theme toggle + GitHub buttons -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+                <Button ToolTip="Toggle light / dark theme"
+                        Command="{Binding ToggleThemeCommand}"
+                        Style="{StaticResource ThemeToggleButtonStyle}"
+                        Content="🌓"
+                        Margin="0,0,0,5"/>
+
+                <Button ToolTip="Visit GitHub Repository" Click="GitHubButton_Click" Style="{StaticResource NavButtonStyle}">
                     <Image Source="/Resources/Images/GitHub_Dark.png" Margin="6" />
                 </Button>
-            </Grid>
-            <Grid Grid.Column="1" Grid.RowSpan="2">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsConnected}" Value="False"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="#8B0000"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsConnected}" Value="True"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="#006400"/>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-            </Grid>
+            </StackPanel>
+            <Grid Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource ConnectionStatusGridStyle}"/>
         </Grid>
     </Grid>
 </UserControl>

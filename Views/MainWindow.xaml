@@ -4,8 +4,10 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:local="clr-namespace:QRO"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="Quick Release Overlays" 
-        Height="350" Width="525">
+        Title="Quick Release Overlays"
+        Height="480" Width="720"
+        MinHeight="380" MinWidth="600"
+        Background="{DynamicResource BackgroundBrush}">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>

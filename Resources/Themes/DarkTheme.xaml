@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Base colors -->
+    <Color x:Key="BackgroundColor">#FF16181D</Color>
+    <Color x:Key="SurfaceColor">#FF1E2126</Color>
+    <Color x:Key="SurfaceAltColor">#FF262A31</Color>
+    <Color x:Key="BorderColor">#FF333841</Color>
+    <Color x:Key="ForegroundColor">#FFECEDEF</Color>
+    <Color x:Key="MutedForegroundColor">#FF9AA0AA</Color>
+
+    <!-- Racing accent (selection / focus / links) -->
+    <Color x:Key="AccentColor">#FFFF6B35</Color>
+    <Color x:Key="AccentHoverColor">#FFFF8358</Color>
+    <Color x:Key="AccentForegroundColor">#FFFFFFFF</Color>
+
+    <!-- Sim connection status -->
+    <Color x:Key="ConnectedColor">#FF2FB673</Color>
+    <Color x:Key="DisconnectedColor">#FFE5484D</Color>
+
+    <!-- Darker variants used for the selected nav tab, so it reads distinctly from the connection-status rail behind it -->
+    <Color x:Key="SelectedConnectedColor">#FF1F8556</Color>
+    <Color x:Key="SelectedDisconnectedColor">#FFB23338</Color>
+
+    <!-- Sidebar nav buttons -->
+    <Color x:Key="NavIdleBackgroundColor">#FF1E2126</Color>
+    <Color x:Key="NavIdleForegroundColor">#FFC7CBD1</Color>
+    <Color x:Key="NavHoverBackgroundColor">#FF2A2E36</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="SurfaceAltBrush" Color="{StaticResource SurfaceAltColor}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="MutedForegroundBrush" Color="{StaticResource MutedForegroundColor}"/>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentHoverColor}"/>
+    <SolidColorBrush x:Key="AccentForegroundBrush" Color="{StaticResource AccentForegroundColor}"/>
+
+    <SolidColorBrush x:Key="ConnectedBrush" Color="{StaticResource ConnectedColor}"/>
+    <SolidColorBrush x:Key="DisconnectedBrush" Color="{StaticResource DisconnectedColor}"/>
+
+    <SolidColorBrush x:Key="SelectedConnectedBrush" Color="{StaticResource SelectedConnectedColor}"/>
+    <SolidColorBrush x:Key="SelectedDisconnectedBrush" Color="{StaticResource SelectedDisconnectedColor}"/>
+
+    <SolidColorBrush x:Key="NavIdleBackgroundBrush" Color="{StaticResource NavIdleBackgroundColor}"/>
+    <SolidColorBrush x:Key="NavIdleForegroundBrush" Color="{StaticResource NavIdleForegroundColor}"/>
+    <SolidColorBrush x:Key="NavHoverBackgroundBrush" Color="{StaticResource NavHoverBackgroundColor}"/>
+
+</ResourceDictionary>

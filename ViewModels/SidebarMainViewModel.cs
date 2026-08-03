@@ -1,5 +1,6 @@
 ﻿using QRO.Services;
 using QRO.ViewModels;
+using Prism.Commands;
 using Prism.Regions;
 using QRO.Views;
 using System;
@@ -16,6 +17,7 @@ namespace QRO.ViewModels
         #region Fields
 
         private readonly ITelemetryServiceManager _telemetryServiceManager;
+        private readonly IThemeService _themeService;
         private IRegionManager _regionManager;
 
         private bool _isConnected;
@@ -25,9 +27,10 @@ namespace QRO.ViewModels
 
         #region Constructors
 
-        SidebarMainViewModel(ITelemetryServiceManager TelemetryServiceManager, IRegionManager regionManager)
+        SidebarMainViewModel(ITelemetryServiceManager TelemetryServiceManager, IThemeService themeService, IRegionManager regionManager)
         {
             _telemetryServiceManager = TelemetryServiceManager;
+            _themeService = themeService;
             _regionManager = regionManager;
 
             _telemetryServiceManager.Connected += OnTelemetryConnected;
@@ -35,6 +38,8 @@ namespace QRO.ViewModels
 
             IsConnected = _telemetryServiceManager.IsConnected;
             SelectedButton = "Overlays"; // Set default selected button
+
+            ToggleThemeCommand = new DelegateCommand(ToggleTheme);
         }
 
         #endregion
@@ -58,6 +63,8 @@ namespace QRO.ViewModels
             get => _selectedButton;
             set => SetProperty(ref _selectedButton, value);
         }
+
+        public DelegateCommand ToggleThemeCommand { get; private set; }
 
         #endregion
 
@@ -107,6 +114,12 @@ namespace QRO.ViewModels
         #endregion
 
         #region Private Methods
+
+        private void ToggleTheme()
+        {
+            _themeService.ToggleTheme();
+        }
+
         private void OnTelemetryConnected(object sender, EventArgs e)
         {
             IsConnected = true;
