@@ -111,6 +111,9 @@ namespace QRO.Services
                 CurrentLapDistancePercentage = data.GetFloat("CarIdxLapDistPct", index),
             };
 
+            carData.CarName = driver.CarScreenName;
+            carData.CarClassName = driver.CarClassShortName;
+
             carData.Drivers.Name = driver.TeamName;
             carData.Drivers.IRating = driver.IRating;
             carData.Drivers.SafetyRating = driver.LicString;

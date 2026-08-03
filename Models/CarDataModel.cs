@@ -14,6 +14,8 @@ namespace QRO.Models
         private bool _isPlayerCar;
         private DriverDataModel _drivers = new DriverDataModel();
 
+        private string _carName;
+        private string _carClassName;
         private int _classType;
         private int _carNumber;
         private int _position;
@@ -69,6 +71,22 @@ namespace QRO.Models
         {
             get { return _drivers; }
             set { _drivers = value; }
+        }
+        /// <summary>
+        /// Screen name of the car (e.g. "Dallara P217").
+        /// </summary>
+        public string CarName
+        {
+            get { return _carName; }
+            set { _carName = value; }
+        }
+        /// <summary>
+        /// Short name of the car's class (e.g. "LMP2").
+        /// </summary>
+        public string CarClassName
+        {
+            get { return _carClassName; }
+            set { _carClassName = value; }
         }
         /// <summary>
         /// Number of the car.

@@ -1,11 +1,13 @@
 ﻿using Prism.Ioc;
 using Prism.Regions;
 using QRO.Views;
+using System.Net.Http;
 using System.Windows;
 using QRO.ViewModels.Overlays;
 using QRO.Views.Overlays;
 using QRO.Enumerations;
 using QRO.Services;
+using QRO.Services.AI;
 using QRO.Services.Factories;
 using QRO.ViewModels;
 
@@ -28,7 +30,7 @@ namespace QRO
             containerRegistry.RegisterForNavigation<OverlaySelectorView, OverlaySelectorViewModel>();
             containerRegistry.RegisterForNavigation<ControlPresetSelectView, ControlPresetSelectViewModel>();
             containerRegistry.RegisterForNavigation<GraphicsPresetSelectView, GraphicsPresetSelectViewModel>();
-            containerRegistry.RegisterForNavigation<RaceEngineerChatView, RaceEngineerChatView>();
+            containerRegistry.RegisterForNavigation<RaceEngineerChatView, RaceEngineerChatViewModel>();
             containerRegistry.RegisterForNavigation<InputTraces, InputTracesViewModel>();
             containerRegistry.RegisterForNavigation<AttitudeView, AttitudeViewModel>();
             containerRegistry.RegisterForNavigation<WindDirectionCompassView, WindDirectionCompassViewModel>();
@@ -39,6 +41,12 @@ namespace QRO
             containerRegistry.RegisterSingleton<IOverlayWindowManagerService, OverlayWindowManagerService>();
             containerRegistry.RegisterSingleton<ITelemetryServiceManager, TelemetryServiceManager>();
             containerRegistry.RegisterSingleton<ISimulatorProcessMonitor, SimulatorProcessMonitor>();
+            containerRegistry.RegisterSingleton<HttpClient>();
+            containerRegistry.RegisterSingleton<ICredentialStorageService, CredentialStorageService>();
+            containerRegistry.RegisterSingleton<IAIChatClientFactory, AIChatClientFactory>();
+            containerRegistry.RegisterSingleton<IRaceEngineerContextBuilder, RaceEngineerContextBuilder>();
+            containerRegistry.RegisterSingleton<OpenAIChatClient>();
+            containerRegistry.RegisterSingleton<AnthropicChatClient>();
         }
 
         protected override void OnInitialized()
