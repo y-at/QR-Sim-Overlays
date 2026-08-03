@@ -101,6 +101,30 @@ namespace QRO.Services
         }
 
         /// <summary>
+        /// Renames a saved preset in the QRO appdata directory.
+        /// </summary>
+        /// <param name="type">The category of preset to rename.</param>
+        /// <param name="oldName">The current name of the preset.</param>
+        /// <param name="newName">The new name for the preset.</param>
+        /// <exception cref="FileNotFoundException">Thrown when no preset with <paramref name="oldName"/> exists.</exception>
+        /// <exception cref="IOException">Thrown when a preset named <paramref name="newName"/> already exists.</exception>
+        public void RenamePreset(FilePresetType type, string oldName, string newName)
+        {
+            var directory = GetPresetDirectory(type);
+            var extension = Path.GetExtension(GetGameFileName(type));
+            var oldPath = Path.Combine(directory, oldName + extension);
+            var newPath = Path.Combine(directory, newName + extension);
+
+            if (!File.Exists(oldPath))
+                throw new FileNotFoundException($"Preset file not found: {oldPath}");
+
+            if (File.Exists(newPath))
+                throw new IOException($"A preset named \"{newName}\" already exists.");
+
+            File.Move(oldPath, newPath);
+        }
+
+        /// <summary>
         /// Performs a byte-by-byte comparison of the current iRacing game file against all saved presets of the specified type. Returns True if no game file is present (nothing to back up) or if a matching preset already exists.
         /// </summary>
         /// <param name="type">The preset category whose game file and saved presets to compare.</param>
@@ -123,6 +147,20 @@ namespace QRO.Services
         /// </summary>
         /// <param name="type">The preset type whose game file to check.</param>
         /// <returns>True if the file is present on disk, otherwise false.</returns>
+        /// <summary>
+        /// Finds the saved preset, if any, whose contents exactly match the current iRacing game file for the given type.
+        /// </summary>
+        /// <param name="type">The category of preset to check against.</param>
+        /// <returns>The matching preset, or null if the game file does not exist or does not match any saved preset.</returns>
+        public FilePresetModel GetMatchingPreset(FilePresetType type)
+        {
+            var gameFile = GetGameFilePath(type);
+            if (!File.Exists(gameFile))
+                return null;
+
+            return GetPresets(type).FirstOrDefault(preset => FilesAreEqual(gameFile, preset.FilePath));
+        }
+
         public bool GameFileExists(FilePresetType type)
         {
             return File.Exists(GetGameFilePath(type));
@@ -223,7 +261,7 @@ namespace QRO.Services
                 fs2.Read(buffer2, 0, bufferSize);
                 for (int i = 0; i < read; i++)
                 {
-                    if (buffer1[i] != buffer1[i])
+                    if (buffer1[i] != buffer2[i])
                         return false;
                 }
             }

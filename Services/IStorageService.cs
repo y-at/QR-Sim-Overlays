@@ -38,6 +38,16 @@ namespace QRO.Services
         void DeletePreset(FilePresetType type, string name);
 
         /// <summary>
+        /// Renames a saved preset in the QRO appdata directory.
+        /// </summary>
+        /// <param name="type">The category of preset to rename.</param>
+        /// <param name="oldName">The current name of the preset.</param>
+        /// <param name="newName">The new name for the preset.</param>
+        /// <exception cref="FileNotFoundException">Thrown when no preset with <paramref name="oldName"/> exists.</exception>
+        /// <exception cref="IOException">Thrown when a preset named <paramref name="newName"/> already exists.</exception>
+        void RenamePreset(FilePresetType type, string oldName, string newName);
+
+        /// <summary>
         /// Compares the current iRacing game file against all saved presets of the specified type.
         /// </summary>
         /// <param name="type">The category of preset to check against.</param>
@@ -46,6 +56,13 @@ namespace QRO.Services
         /// <see langword="false"/> if the file exists but does not match any saved preset.
         /// </returns>
         bool CurrentFileMatchesAnyPreset(FilePresetType type);
+
+        /// <summary>
+        /// Finds the saved preset, if any, whose contents exactly match the current iRacing game file for the given type.
+        /// </summary>
+        /// <param name="type">The category of preset to check against.</param>
+        /// <returns>The matching <see cref="FilePresetModel"/>, or <see langword="null"/> if the game file does not exist or does not match any saved preset.</returns>
+        FilePresetModel GetMatchingPreset(FilePresetType type);
 
         /// <summary>
         /// Determines whether the iRacing game file for the specified preset type exists on disk.

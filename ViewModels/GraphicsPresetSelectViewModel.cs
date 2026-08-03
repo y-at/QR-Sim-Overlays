@@ -19,6 +19,7 @@ namespace QRO.ViewModels
         private bool _isVrMode = false;
         private readonly ObservableCollection<string> _vrRenderModeCollection = new ObservableCollection<string>();
         private string _selectedVrRenderMode;
+        private string _loadedPresetStatus;
 
         private FilePresetType ActiveFilePresetType => GetActivePresetType();
 
@@ -36,6 +37,7 @@ namespace QRO.ViewModels
             SaveCommand = new DelegateCommand(SaveCurrentAsPreset);
             LoadCommand = new DelegateCommand(LoadSelectedPreset);
             DeleteCommand = new DelegateCommand(DeleteSelectedPreset);
+            RenameCommand = new DelegateCommand(RenameSelectedPreset);
         }
 
         #endregion
@@ -59,6 +61,7 @@ namespace QRO.ViewModels
                 {
                     OnPropertyChanged(nameof(SelectedVrRenderMode));
                     OnPropertyChanged(nameof(GameFileName));
+                    RefreshLoadedPresetStatus();
                 }
             }
         }
@@ -77,6 +80,7 @@ namespace QRO.ViewModels
                     OnPropertyChanged(nameof(GameFileName));
                     OnPropertyChanged(nameof(IsVrMode));
                     RefreshPresets();
+                    RefreshLoadedPresetStatus();
                 }
             }
         }
@@ -100,6 +104,15 @@ namespace QRO.ViewModels
         public string GameFileName => _isVrMode ? $"RendererDX11{SelectedVrRenderMode}.ini" : "RendererDX11Monitor.ini";
 
         /// <summary>
+        /// Describes which saved preset (if any) matches the graphics settings file currently loaded for the active mode.
+        /// </summary>
+        public string LoadedPresetStatus
+        {
+            get => _loadedPresetStatus;
+            private set => SetProperty(ref _loadedPresetStatus, value);
+        }
+
+        /// <summary>
         /// Gets the command that saves the current data or state.
         /// </summary>
         public DelegateCommand SaveCommand { get; }
@@ -114,6 +127,11 @@ namespace QRO.ViewModels
         /// </summary>
         public DelegateCommand DeleteCommand { get; }
 
+        /// <summary>
+        /// Gets the command that renames the selected preset.
+        /// </summary>
+        public DelegateCommand RenameCommand { get; }
+
         #endregion
 
         #region Public Methods
@@ -121,6 +139,8 @@ namespace QRO.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             RefreshPresets();
+            RefreshLoadedPresetStatus();
+            Application.Current.Dispatcher.InvokeAsync(PromptBackupIfNeeded);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
@@ -167,6 +187,7 @@ namespace QRO.ViewModels
                 StatusMessage = $"Preset \"{NewPresetName}\" saved.";
                 NewPresetName = string.Empty;
                 RefreshPresets();
+                RefreshLoadedPresetStatus();
             }
             catch (Exception ex)
             {
@@ -193,6 +214,7 @@ namespace QRO.ViewModels
             {
                 _storageService.LoadPreset(ActiveFilePresetType, SelectedFilePreset.Name);
                 StatusMessage = $"Preset \"{SelectedFilePreset.Name}\" loaded.";
+                RefreshLoadedPresetStatus();
             }
             catch (Exception ex)
             {
@@ -220,10 +242,62 @@ namespace QRO.ViewModels
                 _storageService.DeletePreset(ActiveFilePresetType, SelectedFilePreset.Name);
                 StatusMessage = $"Preset \"{SelectedFilePreset.Name}\" deleted.";
                 RefreshPresets();
+                RefreshLoadedPresetStatus();
             }
             catch (Exception ex)
             {
                 StatusMessage = $"Failed to delete preset: {ex.Message}";
+            }
+        }
+
+        /// <summary>
+        /// Validates the new name and renames the <see cref="SelectedFilePreset"/> to the name entered in <see cref="PresetSelectViewModelBase.NewPresetName"/>.
+        /// </summary>
+        private void RenameSelectedPreset()
+        {
+            if (SelectedFilePreset == null)
+            {
+                StatusMessage = "Please select a preset to rename.";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewPresetName))
+            {
+                StatusMessage = "Enter the new name in the box above, then click Rename Selected.";
+                return;
+            }
+
+            if (NewPresetName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                StatusMessage = "Preset name contains invalid characters.";
+                return;
+            }
+
+            if (string.Equals(NewPresetName, SelectedFilePreset.Name, StringComparison.Ordinal))
+            {
+                StatusMessage = "That's already the current name.";
+                return;
+            }
+
+            if (_storageService.PresetExists(ActiveFilePresetType, NewPresetName))
+            {
+                StatusMessage = $"A preset named \"{NewPresetName}\" already exists.";
+                return;
+            }
+
+            try
+            {
+                var newName = NewPresetName;
+                _storageService.RenamePreset(ActiveFilePresetType, SelectedFilePreset.Name, newName);
+                StatusMessage = $"Renamed to \"{newName}\".";
+                NewPresetName = string.Empty;
+                RefreshPresets();
+                RefreshLoadedPresetStatus();
+                SelectedFilePreset = Presets.FirstOrDefault(preset => preset.Name == newName);
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Failed to rename preset: {ex.Message}";
             }
         }
 
@@ -235,6 +309,23 @@ namespace QRO.ViewModels
             Presets.Clear();
             foreach (var preset in _storageService.GetPresets(ActiveFilePresetType))
                 Presets.Add(preset);
+        }
+
+        /// <summary>
+        /// Scans the saved presets for the active mode for one whose contents match the current graphics settings file and updates <see cref="LoadedPresetStatus"/> accordingly.
+        /// </summary>
+        private void RefreshLoadedPresetStatus()
+        {
+            if (!_storageService.GameFileExists(ActiveFilePresetType))
+            {
+                LoadedPresetStatus = $"No {GameFileName} found in your iRacing documents folder.";
+                return;
+            }
+
+            var matchingPreset = _storageService.GetMatchingPreset(ActiveFilePresetType);
+            LoadedPresetStatus = matchingPreset != null
+                ? $"Currently loaded profile: {matchingPreset.Name}"
+                : $"Currently loaded {GameFileName} doesn't match any saved preset.";
         }
 
         /// <summary>

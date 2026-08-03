@@ -19,7 +19,7 @@
 
                 <!-- Navigation Buttons -->
             <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="5">
+                <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="5, 15, 5, 15">
                     
                             <!-- Overlays Button -->
                     <Button Content="Overlays" Click="OverlayButton_Click" ToolTip="Overlays" Margin="0,0,0,5"
