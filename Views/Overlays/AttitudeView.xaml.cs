@@ -20,6 +20,7 @@ namespace QRO.Views.Overlays
             {
                 this.DragMove();
             };
+            OverlayWindowInteraction.EnableResize(this, ResizeGripHandle);
             this.Topmost = true;
         }
     }

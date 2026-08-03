@@ -69,5 +69,14 @@
                 <TextBlock Text="{Binding WindSpeedString}" FontSize="28" FontWeight="Bold" Foreground="FloralWhite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 60, 0, 0"/>
             </Grid>
         </Viewbox>
+
+        <!-- Drag to resize the overlay -->
+        <Border x:Name="ResizeGripHandle"
+                Width="14" Height="14"
+                Background="#55FFFFFF"
+                CornerRadius="2"
+                Cursor="SizeNWSE"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,4,4"/>
     </Grid>
 </Window>

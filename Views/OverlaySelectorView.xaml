@@ -7,18 +7,95 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Style="{StaticResource BackgroundAppColour}">
-        <Border Style="{StaticResource CardStyle}" Margin="16" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-            <StackPanel>
-                <TextBlock Text="Overlays" Style="{StaticResource SectionHeaderStyle}"/>
-                <TextBlock Text="Show a live telemetry overlay window on top of iRacing."
-                           Foreground="{DynamicResource MutedForegroundBrush}"
-                           TextWrapping="Wrap"
-                           Margin="0,0,0,16"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="16">
+                <!-- Overlays -->
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="Overlays" Style="{StaticResource SectionHeaderStyle}"/>
+                        <TextBlock Text="Show a live telemetry overlay window on top of iRacing. Drag anywhere on an overlay to move it, or its bottom-right corner to resize it."
+                                   Foreground="{DynamicResource MutedForegroundBrush}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,16"/>
 
-                <Button Content="Show Input Traces" Click="ShowInputTraces_Click" HorizontalAlignment="Left" Margin="0,0,0,8"/>
-                <Button Content="Show Attitude" Click="ShowAttitude_Click" HorizontalAlignment="Left" Margin="0,0,0,8"/>
-                <Button Content="Show Wind Direction Compass" Click="ShowWindDirectionCompass_Click" HorizontalAlignment="Left"/>
+                        <Button Content="Show Input Traces" Click="ShowInputTraces_Click" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+                        <Button Content="Show Attitude" Click="ShowAttitude_Click" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+                        <Button Content="Show Wind Direction Compass" Click="ShowWindDirectionCompass_Click" HorizontalAlignment="Left" Margin="0,0,0,16"/>
+
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Margin="0,0,0,16"/>
+
+                        <CheckBox Content="Lock overlays (click-through to the sim, no drag or resize)"
+                                  IsChecked="{Binding LockOverlaysEnabled}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Overlay profiles -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Overlay Profiles" Style="{StaticResource SectionHeaderStyle}"/>
+                        <TextBlock Text="Save which overlays are open, along with their position and size, then reload the whole layout later."
+                                   Foreground="{DynamicResource MutedForegroundBrush}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,4"/>
+
+                        <Grid Margin="0,8,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding NewProfileName, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="0,0,8,0"/>
+                            <Button Grid.Column="1"
+                                    Content="Save Current Layout"
+                                    Command="{Binding SaveProfileCommand}"/>
+                        </Grid>
+
+                        <!-- Saved profiles list -->
+                        <ListBox ItemsSource="{Binding Profiles}"
+                                 SelectedItem="{Binding SelectedProfile}"
+                                 DisplayMemberPath="Name"
+                                 Height="120"
+                                 Margin="0,0,0,12"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <Button Content="Load Selected"
+                                    Command="{Binding LoadProfileCommand}"
+                                    Margin="0,0,8,0"/>
+                            <Button Content="Rename Selected"
+                                    Command="{Binding RenameProfileCommand}"
+                                    ToolTip="Renames the selected profile to the name entered in the box above."
+                                    Margin="0,0,8,0"/>
+                            <Button Content="Delete Selected"
+                                    Command="{Binding DeleteProfileCommand}"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   Foreground="{DynamicResource MutedForegroundBrush}"
+                                   FontStyle="Italic"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,16"/>
+
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Margin="0,0,0,16"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="Auto-load profile when the sim connects:"
+                                      IsChecked="{Binding AutoLoadEnabled}"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,10,0"/>
+                            <ComboBox ItemsSource="{Binding Profiles}"
+                                      SelectedItem="{Binding AutoLoadProfile}"
+                                      DisplayMemberPath="Name"
+                                      MinWidth="160"/>
+                        </StackPanel>
+                        <CheckBox Content="Unload overlays when the sim disconnects"
+          IsChecked="{Binding UnloadOnDisconnectEnabled}"
+          Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                
             </StackPanel>
-        </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>

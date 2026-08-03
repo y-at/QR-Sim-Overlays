@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using QRO.ViewModels.Overlays;
+using QRO.Views.Overlays;
 
 namespace QRO.Views
 {
@@ -11,6 +12,7 @@ namespace QRO.Views
             InitializeComponent();
             DataContext = viewModel;
             this.MouseLeftButtonDown += (s, e) => this.DragMove();
+            OverlayWindowInteraction.EnableResize(this, ResizeGripHandle);
 
             this.Topmost = true;
         }

@@ -12,104 +12,118 @@
         AllowsTransparency="True"
         Background="Transparent">
 	<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*"/>
-			<ColumnDefinition Width="100"/>
-		</Grid.ColumnDefinitions>
-        
-        <oxy:PlotView Grid.Row="1" Grid.Column="0" Model="{Binding ThrottlePlotModel}" Background ="Transparent" Margin="0,0,0,0" BorderThickness="0"/>
-		<Grid Grid.Row="1" Grid.Column="1" Margin="0,0,5,0">
-			<Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
-			<ProgressBar Minimum="0" Maximum="100" Value="{Binding Throttle}" Foreground="Green" Background="Black" Orientation="Vertical" Width="6" Grid.Column="0" Grid.RowSpan="2" BorderThickness="0"/>
-			<ProgressBar Minimum="0" Maximum="100" Value="{Binding Brake}" Foreground="Red" Background="Black" Orientation="Vertical" Width="6" Grid.Column="1" Grid.RowSpan="2" BorderThickness="0"/>
-			<ProgressBar Minimum="0" Maximum="100" Value="{Binding Clutch}" Foreground="Blue" Background="Black" Orientation="Vertical" Width="6" Grid.Column="2" Grid.RowSpan="2" BorderThickness="0"/>
-
-            <Grid Grid.Column="3" Grid.RowSpan="2">
+        <!-- Encapsulate in Viewbox so the pedal traces, gear indicator and speed indicator scale with the window -->
+        <Viewbox Stretch="Uniform">
+            <Grid Width="400" Height="105">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                    <!-- Creates outline effect for Speed -->
-                    <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="-2" Y="-2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="2" Y="-2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="-2" Y="2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="2" Y="2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <!-- End of outline effect code -->
-                    <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
-                </Grid>
-
-                <Grid Grid.Row="1">
+                <oxy:PlotView Grid.Row="1" Grid.Column="0" Model="{Binding ThrottlePlotModel}" Background ="Transparent" Margin="0,0,0,0" BorderThickness="0"/>
+                <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,5,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="KM/H" FontFamily="Arial Black" FontSize="10" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0" Grid.ColumnSpan="3"/>
-                    <!--<TextBlock Text="{Binding TractionControlLevel}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBlock Text="{Binding BrakeBias}" Grid.Row="1" Grid.Column="1"/>-->
-                </Grid>
-                <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <!-- Creates outline effect for gear indicator -->
-                    <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="-2" Y="-2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="2" Y="-2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="-2" Y="2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
-                        <TextBlock.RenderTransform>
-                            <TranslateTransform X="2" Y="2" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <!-- End of outline effect code -->
-                    <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="{Binding GearFill}"/>
-                </Grid>
+                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding Throttle}" Foreground="Green" Background="Black" Orientation="Vertical" Width="6" Grid.Column="0" Grid.RowSpan="2" BorderThickness="0"/>
+                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding Brake}" Foreground="Red" Background="Black" Orientation="Vertical" Width="6" Grid.Column="1" Grid.RowSpan="2" BorderThickness="0"/>
+                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding Clutch}" Foreground="Blue" Background="Black" Orientation="Vertical" Width="6" Grid.Column="2" Grid.RowSpan="2" BorderThickness="0"/>
+
+                    <Grid Grid.Column="3" Grid.RowSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+    						<RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                            <!-- Creates outline effect for Speed -->
+                            <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="-2" Y="-2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="2" Y="-2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="-2" Y="2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="Black" HorizontalAlignment="Center">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="2" Y="2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <!-- End of outline effect code -->
+                            <TextBlock Text="{Binding Speed}" FontFamily="Arial Black" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="KM/H" FontFamily="Arial Black" FontSize="10" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0" Grid.ColumnSpan="3"/>
+                            <!--<TextBlock Text="{Binding TractionControlLevel}" Grid.Row="1" Grid.Column="0"/>
+                            <TextBlock Text="{Binding BrakeBias}" Grid.Row="1" Grid.Column="1"/>-->
+                        </Grid>
+                        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!-- Creates outline effect for gear indicator -->
+                            <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="-2" Y="-2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="2" Y="-2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="-2" Y="2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="Black" >
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform X="2" Y="2" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <!-- End of outline effect code -->
+                            <TextBlock Text="{Binding Gear}" FontFamily="Arial Black" FontSize="70" Foreground="{Binding GearFill}"/>
+                        </Grid>
+                    </Grid>
+        		</Grid>
             </Grid>
-		</Grid>   
+        </Viewbox>
+
+        <!-- Drag to resize the overlay -->
+        <Border x:Name="ResizeGripHandle"
+                Width="14" Height="14"
+                Background="#55FFFFFF"
+                CornerRadius="2"
+                Cursor="SizeNWSE"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,4,4"/>
 	</Grid>
 </Window>

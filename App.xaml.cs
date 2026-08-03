@@ -39,6 +39,7 @@ namespace QRO
             containerRegistry.RegisterSingleton<IStorageService, StorageService>();
             containerRegistry.RegisterSingleton<IOverlayWindowFactory, OverlayWindowFactory>();
             containerRegistry.RegisterSingleton<IOverlayWindowManagerService, OverlayWindowManagerService>();
+            containerRegistry.RegisterSingleton<IOverlayProfileService, OverlayProfileService>();
             containerRegistry.RegisterSingleton<ITelemetryServiceManager, TelemetryServiceManager>();
             containerRegistry.RegisterSingleton<ISimulatorProcessMonitor, SimulatorProcessMonitor>();
             containerRegistry.RegisterSingleton<HttpClient>();
