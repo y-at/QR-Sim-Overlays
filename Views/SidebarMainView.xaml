@@ -34,8 +34,8 @@
                             Style="{StaticResource GraphicsPresetsNavButtonStyle}"/>
 
                     <!-- Race Engineer Button -->
-                    <Button Content="Race engineer" Click="RaceEngineerButton_Click" Margin="0,5"
-                            Style="{StaticResource RaceEngineerNavButtonStyle}"/>
+                    <!-- <Button Content="Race engineer" Click="RaceEngineerButton_Click" Margin="0,5"
+                            Style="{StaticResource RaceEngineerNavButtonStyle}"/> -->
                 </StackPanel>
             </ScrollViewer>
 
